@@ -1,0 +1,837 @@
+{
+  "source": "uworld_systems_subheadings.md",
+  "systems": [
+    {
+      "id": "allergy-and-immunology",
+      "name": "Allergy & Immunology",
+      "rows": [
+        {
+          "id": "allergy-and-immunology/anaphylaxis-and-allergic-reactions",
+          "name": "Anaphylaxis and allergic reactions"
+        },
+        {
+          "id": "allergy-and-immunology/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "allergy-and-immunology/autoimmune-diseases",
+          "name": "Autoimmune diseases"
+        },
+        {
+          "id": "allergy-and-immunology/transplant-medicine",
+          "name": "Transplant medicine"
+        },
+        {
+          "id": "allergy-and-immunology/immune-deficiencies",
+          "name": "Immune deficiencies"
+        },
+        {
+          "id": "allergy-and-immunology/principles-of-immunology",
+          "name": "Principles of immunology"
+        }
+      ]
+    },
+    {
+      "id": "dermatology",
+      "name": "Dermatology",
+      "rows": [
+        {
+          "id": "dermatology/skin-and-soft-tissue-infections",
+          "name": "Skin and soft tissue infections"
+        },
+        {
+          "id": "dermatology/skin-tumors-and-tumor-like-lesions",
+          "name": "Skin tumors and tumor-like lesions"
+        },
+        {
+          "id": "dermatology/normal-structure-and-function-of-skin",
+          "name": "Normal structure and function of skin"
+        },
+        {
+          "id": "dermatology/inflammatory-dermatoses-and-bullous-diseases",
+          "name": "Inflammatory dermatoses and bullous diseases"
+        },
+        {
+          "id": "dermatology/disorders-of-epidermal-appendages",
+          "name": "Disorders of epidermal appendages"
+        },
+        {
+          "id": "dermatology/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "cardiovascular-system",
+      "name": "Cardiovascular System",
+      "rows": [
+        {
+          "id": "cardiovascular-system/aortic-and-peripheral-artery-diseases",
+          "name": "Aortic and peripheral artery diseases"
+        },
+        {
+          "id": "cardiovascular-system/congenital-heart-disease",
+          "name": "Congenital heart disease"
+        },
+        {
+          "id": "cardiovascular-system/coronary-heart-disease",
+          "name": "Coronary heart disease"
+        },
+        {
+          "id": "cardiovascular-system/valvular-heart-diseases",
+          "name": "Valvular heart diseases"
+        },
+        {
+          "id": "cardiovascular-system/myopericardial-diseases",
+          "name": "Myopericardial diseases"
+        },
+        {
+          "id": "cardiovascular-system/cardiac-arrhythmias",
+          "name": "Cardiac arrhythmias"
+        },
+        {
+          "id": "cardiovascular-system/cardiovascular-drugs",
+          "name": "Cardiovascular drugs"
+        },
+        {
+          "id": "cardiovascular-system/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "cardiovascular-system/hypertension",
+          "name": "Hypertension"
+        },
+        {
+          "id": "cardiovascular-system/heart-failure-and-shock",
+          "name": "Heart failure and shock"
+        },
+        {
+          "id": "cardiovascular-system/normal-structure-and-function-of-the-cardiovascular-system",
+          "name": "Normal structure and function of the cardiovascular system"
+        }
+      ]
+    },
+    {
+      "id": "pulmonary-and-critical-care",
+      "name": "Pulmonary & Critical Care",
+      "rows": [
+        {
+          "id": "pulmonary-and-critical-care/pulmonary-infections",
+          "name": "Pulmonary infections"
+        },
+        {
+          "id": "pulmonary-and-critical-care/obstructive-lung-disease",
+          "name": "Obstructive lung disease"
+        },
+        {
+          "id": "pulmonary-and-critical-care/pulmonary-vascular-disease",
+          "name": "Pulmonary vascular disease"
+        },
+        {
+          "id": "pulmonary-and-critical-care/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "pulmonary-and-critical-care/normal-pulmonary-structure-and-function",
+          "name": "Normal pulmonary structure and function"
+        },
+        {
+          "id": "pulmonary-and-critical-care/critical-care-medicine",
+          "name": "Critical care medicine"
+        },
+        {
+          "id": "pulmonary-and-critical-care/lung-cancer",
+          "name": "Lung cancer"
+        },
+        {
+          "id": "pulmonary-and-critical-care/interstitial-lung-disease",
+          "name": "Interstitial lung disease"
+        },
+        {
+          "id": "pulmonary-and-critical-care/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "pulmonary-and-critical-care/sleep-disorders",
+          "name": "Sleep disorders"
+        }
+      ]
+    },
+    {
+      "id": "gastrointestinal-and-nutrition",
+      "name": "Gastrointestinal & Nutrition",
+      "rows": [
+        {
+          "id": "gastrointestinal-and-nutrition/hepatic-disorders",
+          "name": "Hepatic disorders"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/biliary-tract-disorders",
+          "name": "Biliary tract disorders"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/tumors-of-the-gi-tract",
+          "name": "Tumors of the GI tract"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/intestinal-and-colorectal-disorders",
+          "name": "Intestinal and colorectal disorders"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/normal-structure-and-function-of-the-gi-tract",
+          "name": "Normal structure and function of the GI tract"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/gastroesophageal-disorders",
+          "name": "Gastroesophageal disorders"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/pancreatic-disorders",
+          "name": "Pancreatic disorders"
+        },
+        {
+          "id": "gastrointestinal-and-nutrition/disorders-of-nutrition",
+          "name": "Disorders of nutrition"
+        }
+      ]
+    },
+    {
+      "id": "hematology-and-oncology",
+      "name": "Hematology & Oncology",
+      "rows": [
+        {
+          "id": "hematology-and-oncology/white-blood-cell-disorders",
+          "name": "White blood cell disorders"
+        },
+        {
+          "id": "hematology-and-oncology/platelet-disorders",
+          "name": "Platelet disorders"
+        },
+        {
+          "id": "hematology-and-oncology/red-blood-cell-disorders",
+          "name": "Red blood cell disorders"
+        },
+        {
+          "id": "hematology-and-oncology/hemostasis-and-thrombosis",
+          "name": "Hemostasis and thrombosis"
+        },
+        {
+          "id": "hematology-and-oncology/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "hematology-and-oncology/normal-hematologic-structure-and-function",
+          "name": "Normal hematologic structure and function"
+        },
+        {
+          "id": "hematology-and-oncology/principles-of-oncology",
+          "name": "Principles of oncology"
+        },
+        {
+          "id": "hematology-and-oncology/transfusion-medicine",
+          "name": "Transfusion medicine"
+        },
+        {
+          "id": "hematology-and-oncology/plasma-cell-disorders",
+          "name": "Plasma cell disorders"
+        }
+      ]
+    },
+    {
+      "id": "renal-urinary-systems-and-electrolytes",
+      "name": "Renal, Urinary Systems & Electrolytes",
+      "rows": [
+        {
+          "id": "renal-urinary-systems-and-electrolytes/glomerular-diseases",
+          "name": "Glomerular diseases"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/cystic-kidney-diseases",
+          "name": "Cystic kidney diseases"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/neoplasms-of-the-kidneys-and-urinary-tract",
+          "name": "Neoplasms of the kidneys and urinary tract"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/diabetes-insipidus",
+          "name": "Diabetes insipidus"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/chronic-kidney-disease",
+          "name": "Chronic kidney disease"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/bone-metabolism",
+          "name": "Bone metabolism"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/fluid-electrolytes-and-acid-base",
+          "name": "Fluid, electrolytes, and acid-base"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/normal-structure-and-function-of-the-kidneys-and-urinary-system",
+          "name": "Normal structure and function of the kidneys and urinary system"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/acute-kidney-injury",
+          "name": "Acute kidney injury"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/nephrolithiasis-and-urinary-tract-obstruction",
+          "name": "Nephrolithiasis and urinary tract obstruction"
+        },
+        {
+          "id": "renal-urinary-systems-and-electrolytes/urinary-incontinence",
+          "name": "Urinary incontinence"
+        }
+      ]
+    },
+    {
+      "id": "nervous-system",
+      "name": "Nervous System",
+      "rows": [
+        {
+          "id": "nervous-system/cerebrovascular-disease",
+          "name": "Cerebrovascular disease"
+        },
+        {
+          "id": "nervous-system/hydrocephalus",
+          "name": "Hydrocephalus"
+        },
+        {
+          "id": "nervous-system/neurodegenerative-disorders-and-dementias",
+          "name": "Neurodegenerative disorders and dementias"
+        },
+        {
+          "id": "nervous-system/spinal-cord-disorders",
+          "name": "Spinal cord disorders"
+        },
+        {
+          "id": "nervous-system/disorders-of-peripheral-nerves-and-muscles",
+          "name": "Disorders of peripheral nerves and muscles"
+        },
+        {
+          "id": "nervous-system/cns-infections",
+          "name": "CNS infections"
+        },
+        {
+          "id": "nervous-system/seizures-and-epilepsy",
+          "name": "Seizures and epilepsy"
+        },
+        {
+          "id": "nervous-system/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "nervous-system/traumatic-brain-injuries",
+          "name": "Traumatic brain injuries"
+        },
+        {
+          "id": "nervous-system/sleep-disorders",
+          "name": "Sleep disorders"
+        },
+        {
+          "id": "nervous-system/headache",
+          "name": "Headache"
+        },
+        {
+          "id": "nervous-system/normal-structure-and-function-of-the-nervous-system",
+          "name": "Normal structure and function of the nervous system"
+        },
+        {
+          "id": "nervous-system/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "nervous-system/tumors-of-the-nervous-system",
+          "name": "Tumors of the nervous system"
+        },
+        {
+          "id": "nervous-system/anesthesia",
+          "name": "Anesthesia"
+        },
+        {
+          "id": "nervous-system/demyelinating-diseases",
+          "name": "Demyelinating diseases"
+        }
+      ]
+    },
+    {
+      "id": "rheumatology-orthopedics-and-sports",
+      "name": "Rheumatology/Orthopedics & Sports",
+      "rows": [
+        {
+          "id": "rheumatology-orthopedics-and-sports/arthritis-and-spondyloarthropathies",
+          "name": "Arthritis and spondyloarthropathies"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/autoimmune-disorders-and-vasculitides",
+          "name": "Autoimmune disorders and vasculitides"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/bone-joint-injuries-and-infections",
+          "name": "Bone/joint injuries and infections"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/spinal-disorders-and-back-pain",
+          "name": "Spinal disorders and back pain"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/metabolic-bone-disorders",
+          "name": "Metabolic bone disorders"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/normal-structure-and-function-of-the-musculoskeletal-system",
+          "name": "Normal structure and function of the musculoskeletal system"
+        },
+        {
+          "id": "rheumatology-orthopedics-and-sports/bone-tumors-and-tumor-like-lesions",
+          "name": "Bone tumors and tumor-like lesions"
+        }
+      ]
+    },
+    {
+      "id": "infectious-diseases",
+      "name": "Infectious Diseases",
+      "rows": [
+        {
+          "id": "infectious-diseases/viral-infections",
+          "name": "Viral infections"
+        },
+        {
+          "id": "infectious-diseases/hiv-and-sexually-transmitted-infections",
+          "name": "HIV and sexually transmitted infections"
+        },
+        {
+          "id": "infectious-diseases/parasitic-and-helminthic-infections",
+          "name": "Parasitic and helminthic infections"
+        },
+        {
+          "id": "infectious-diseases/fungal-infections",
+          "name": "Fungal infections"
+        },
+        {
+          "id": "infectious-diseases/bacterial-infections",
+          "name": "Bacterial infections"
+        },
+        {
+          "id": "infectious-diseases/antimicrobial-drugs",
+          "name": "Antimicrobial drugs"
+        },
+        {
+          "id": "infectious-diseases/infection-control",
+          "name": "Infection control"
+        },
+        {
+          "id": "infectious-diseases/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "endocrine-diabetes-and-metabolism",
+      "name": "Endocrine, Diabetes & Metabolism",
+      "rows": [
+        {
+          "id": "endocrine-diabetes-and-metabolism/obesity-and-dyslipidemia",
+          "name": "Obesity and dyslipidemia"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/hypothalamus-and-pituitary-disorders",
+          "name": "Hypothalamus and pituitary disorders"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/reproductive-endocrinology",
+          "name": "Reproductive endocrinology"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/endocrine-tumors",
+          "name": "Endocrine tumors"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/adrenal-disorders",
+          "name": "Adrenal disorders"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/diabetes-mellitus",
+          "name": "Diabetes mellitus"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/thyroid-disorders",
+          "name": "Thyroid disorders"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "endocrine-diabetes-and-metabolism/normal-structure-and-function-of-endocrine-glands",
+          "name": "Normal structure and function of endocrine glands"
+        }
+      ]
+    },
+    {
+      "id": "female-reproductive-system-and-breast",
+      "name": "Female Reproductive System & Breast",
+      "rows": [
+        {
+          "id": "female-reproductive-system-and-breast/genitourinary-tract-infections",
+          "name": "Genitourinary tract infections"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/genital-tract-tumors-and-tumor-like-lesions",
+          "name": "Genital tract tumors and tumor-like lesions"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/normal-structure-and-function-of-the-female-reproductive-system-and-breast",
+          "name": "Normal structure and function of the female reproductive system and breast"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/congenital-and-developmental-anomalies",
+          "name": "Congenital and developmental anomalies"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/menstrual-disorders-and-contraception",
+          "name": "Menstrual disorders and contraception"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/breast-disorders",
+          "name": "Breast disorders"
+        },
+        {
+          "id": "female-reproductive-system-and-breast/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "male-reproductive-system",
+      "name": "Male Reproductive System",
+      "rows": [
+        {
+          "id": "male-reproductive-system/normal-structure-and-function-of-the-male-reproductive-system",
+          "name": "Normal structure and function of the male reproductive system"
+        },
+        {
+          "id": "male-reproductive-system/disorders-of-the-male-reproductive-system",
+          "name": "Disorders of the male reproductive system"
+        }
+      ]
+    },
+    {
+      "id": "pregnancy-childbirth-and-puerperium",
+      "name": "Pregnancy, Childbirth & Puerperium",
+      "rows": [
+        {
+          "id": "pregnancy-childbirth-and-puerperium/disorders-of-pregnancy-childbirth-and-puerperium",
+          "name": "Disorders of pregnancy, childbirth, and puerperium"
+        },
+        {
+          "id": "pregnancy-childbirth-and-puerperium/normal-pregnancy-childbirth-and-puerperium",
+          "name": "Normal pregnancy, childbirth, and puerperium"
+        }
+      ]
+    },
+    {
+      "id": "biostatistics-and-epidemiology",
+      "name": "Biostatistics & Epidemiology",
+      "rows": [
+        {
+          "id": "biostatistics-and-epidemiology/probability-and-principles-of-testing",
+          "name": "Probability and principles of testing"
+        },
+        {
+          "id": "biostatistics-and-epidemiology/study-design-and-interpretation",
+          "name": "Study design and interpretation"
+        },
+        {
+          "id": "biostatistics-and-epidemiology/epidemiology-and-population-health",
+          "name": "Epidemiology and population health"
+        },
+        {
+          "id": "biostatistics-and-epidemiology/measures-and-distribution-of-data",
+          "name": "Measures and distribution of data"
+        },
+        {
+          "id": "biostatistics-and-epidemiology/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "ear-nose-and-throat-ent",
+      "name": "Ear, Nose & Throat (ENT)",
+      "rows": [
+        {
+          "id": "ear-nose-and-throat-ent/disorders-of-the-ear-nose-and-throat",
+          "name": "Disorders of the ear, nose, and throat"
+        }
+      ]
+    },
+    {
+      "id": "psychiatric-behavioral-and-substance-use-disorder",
+      "name": "Psychiatric/Behavioral & Substance Use Disorder",
+      "rows": [
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/psychotic-disorders",
+          "name": "Psychotic disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/anxiety-and-trauma-related-disorders",
+          "name": "Anxiety and trauma-related disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/substance-use-disorders",
+          "name": "Substance use disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/mood-disorders",
+          "name": "Mood disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/normal-behavior-and-development",
+          "name": "Normal behavior and development"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/eating-disorders",
+          "name": "Eating disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/personality-disorders",
+          "name": "Personality disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/neurodevelopmental-disorders",
+          "name": "Neurodevelopmental disorders"
+        },
+        {
+          "id": "psychiatric-behavioral-and-substance-use-disorder/somatoform-disorders",
+          "name": "Somatoform disorders"
+        }
+      ]
+    },
+    {
+      "id": "poisoning-and-environmental-exposure",
+      "name": "Poisoning & Environmental Exposure",
+      "rows": [
+        {
+          "id": "poisoning-and-environmental-exposure/toxicology",
+          "name": "Toxicology"
+        },
+        {
+          "id": "poisoning-and-environmental-exposure/environmental-exposure",
+          "name": "Environmental exposure"
+        }
+      ]
+    },
+    {
+      "id": "ophthalmology",
+      "name": "Ophthalmology",
+      "rows": [
+        {
+          "id": "ophthalmology/normal-structure-and-function-of-the-eye-and-associated-structures",
+          "name": "Normal structure and function of the eye and associated structures"
+        },
+        {
+          "id": "ophthalmology/disorders-of-the-eye-and-associated-structures",
+          "name": "Disorders of the eye and associated structures"
+        }
+      ]
+    },
+    {
+      "id": "social-sciences-ethics-legal-professional",
+      "name": "Social Sciences (Ethics/Legal/Professional)",
+      "rows": [
+        {
+          "id": "social-sciences-ethics-legal-professional/healthcare-policy-and-economics",
+          "name": "Healthcare policy and economics"
+        },
+        {
+          "id": "social-sciences-ethics-legal-professional/patient-safety",
+          "name": "Patient safety"
+        },
+        {
+          "id": "social-sciences-ethics-legal-professional/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "social-sciences-ethics-legal-professional/communication-and-interpersonal-skills",
+          "name": "Communication and interpersonal skills"
+        },
+        {
+          "id": "social-sciences-ethics-legal-professional/medical-ethics-and-jurisprudence",
+          "name": "Medical ethics and jurisprudence"
+        },
+        {
+          "id": "social-sciences-ethics-legal-professional/system-based-practice-and-quality-improvement",
+          "name": "System based-practice and quality improvement"
+        }
+      ]
+    },
+    {
+      "id": "miscellaneous-multisystem",
+      "name": "Miscellaneous (Multisystem)",
+      "rows": [
+        {
+          "id": "miscellaneous-multisystem/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "biochemistry-general-principles",
+      "name": "Biochemistry (General Principles)",
+      "rows": [
+        {
+          "id": "biochemistry-general-principles/cell-and-molecular-biology",
+          "name": "Cell and molecular biology"
+        },
+        {
+          "id": "biochemistry-general-principles/amino-acids-proteins-and-enzymes",
+          "name": "Amino acids, proteins, and enzymes"
+        },
+        {
+          "id": "biochemistry-general-principles/bioenergetics-and-carbohydrate-metabolism",
+          "name": "Bioenergetics and carbohydrate metabolism"
+        },
+        {
+          "id": "biochemistry-general-principles/lipid-metabolism",
+          "name": "Lipid metabolism"
+        },
+        {
+          "id": "biochemistry-general-principles/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "genetics-general-principles",
+      "name": "Genetics (General Principles)",
+      "rows": [
+        {
+          "id": "genetics-general-principles/clinical-genetics",
+          "name": "Clinical genetics"
+        },
+        {
+          "id": "genetics-general-principles/dna-structure-replication-and-repair",
+          "name": "DNA structure, replication, and repair"
+        },
+        {
+          "id": "genetics-general-principles/rna-structure-synthesis-and-processing",
+          "name": "RNA structure, synthesis, and processing"
+        },
+        {
+          "id": "genetics-general-principles/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "genetics-general-principles/gene-expression-and-regulation",
+          "name": "Gene expression and regulation"
+        },
+        {
+          "id": "genetics-general-principles/protein-synthesis",
+          "name": "Protein synthesis"
+        }
+      ]
+    },
+    {
+      "id": "microbiology-general-principles",
+      "name": "Microbiology (General Principles)",
+      "rows": [
+        {
+          "id": "microbiology-general-principles/virology",
+          "name": "Virology"
+        },
+        {
+          "id": "microbiology-general-principles/mycology",
+          "name": "Mycology"
+        },
+        {
+          "id": "microbiology-general-principles/bacteriology",
+          "name": "Bacteriology"
+        },
+        {
+          "id": "microbiology-general-principles/miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "microbiology-general-principles/parasitology",
+          "name": "Parasitology"
+        }
+      ]
+    },
+    {
+      "id": "pathology-general-principles",
+      "name": "Pathology (General Principles)",
+      "rows": [
+        {
+          "id": "pathology-general-principles/cellular-pathology",
+          "name": "Cellular pathology"
+        },
+        {
+          "id": "pathology-general-principles/neoplasia",
+          "name": "Neoplasia"
+        },
+        {
+          "id": "pathology-general-principles/inflammation-and-repair",
+          "name": "Inflammation and repair"
+        }
+      ]
+    },
+    {
+      "id": "pharmacology-general-principles",
+      "name": "Pharmacology (General Principles)",
+      "rows": [
+        {
+          "id": "pharmacology-general-principles/drug-metabolism-and-toxicity",
+          "name": "Drug metabolism and toxicity"
+        },
+        {
+          "id": "pharmacology-general-principles/pharmacokinetics",
+          "name": "Pharmacokinetics"
+        },
+        {
+          "id": "pharmacology-general-principles/drug-receptors-and-pharmacodynamics",
+          "name": "Drug receptors and pharmacodynamics"
+        },
+        {
+          "id": "pharmacology-general-principles/miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    }
+  ]
+}

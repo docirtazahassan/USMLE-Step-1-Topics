@@ -1,0 +1,14 @@
+{
+  "name": "uworld-master-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline progress tracker for the USMLE master-material pipeline. Open index.html directly.",
+  "scripts": {
+    "seed": "node scripts/parse-seed.js",
+    "build": "node scripts/build.js",
+    "test": "node --test",
+    "test:e2e": "node scripts/e2e.js",
+    "check": "node scripts/build.js --check && node --test && node scripts/e2e.js"
+  },
+  "license": "UNLICENSED"
+}
