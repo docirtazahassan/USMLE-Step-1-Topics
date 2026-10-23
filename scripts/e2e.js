@@ -35,8 +35,8 @@ async function step(name, fn) {
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 
   const stored = () => page.evaluate((k) => JSON.parse(localStorage.getItem(k)), KEY);
-  const cell = (rowId, stage) => page.locator(`tr[data-row="${rowId}"] .cell[data-stage="${stage}"]`);
-  const cellState = async (rowId, stage) => (await cell(rowId, stage).getAttribute('class')).match(/s-(\w+)/)[1];
+  const cell = (rowId, stage = 'done') => page.locator(`tr[data-row="${rowId}"] .cell[data-stage="${stage}"]`);
+  const cellState = async (rowId, stage = 'done') => (await cell(rowId, stage).getAttribute('class')).match(/s-(\w+)/)[1];
   const download = async (trigger) => {
     const [dl] = await Promise.all([page.waitForEvent('download'), trigger()]);
     const file = path.join(tmp, dl.suggestedFilename());
@@ -56,46 +56,44 @@ async function step(name, fn) {
     assert.equal(await page.locator('#overallPct').textContent(), '0%');
   });
 
-  await step('clicking cycles todo → done → N/A → todo, and survives refresh', async () => {
-    await cell(R1, 'draft').click();
-    assert.equal(await cellState(R1, 'draft'), 'done');
-    await cell(R1, 'solve').click();
-    await cell(R1, 'solve').click();
-    assert.equal(await cellState(R1, 'solve'), 'na');
-    await cell(R1, 'pdf').click();
-    await cell(R1, 'pdf').click();
-    await cell(R1, 'pdf').click();
-    assert.equal(await cellState(R1, 'pdf'), 'todo');
-    await page.reload();
-    assert.equal(await cellState(R1, 'draft'), 'done');
-    assert.equal(await cellState(R1, 'solve'), 'na');
-    const s = await stored();
-    const row = s.systems[0].rows[0];
-    assert.ok(row.stages.draft.doneAt);
-    assert.equal(row.stages.solve.doneAt, null);
+  await step('there is one Done column', async () => {
+    assert.deepEqual(await page.locator('thead th').allTextContents(), ['Subheading', 'Done']);
+    assert.equal(await page.locator(`tr[data-row="${R1}"] .cell`).count(), 1);
   });
 
-  await step('soft order warning appears on out-of-order done cells', async () => {
-    await cell(R2, 'merge').click();
-    assert.equal(await cell(R2, 'merge').locator('.warn').count(), 1);
-    assert.equal(await cellState(R2, 'merge'), 'done');
+  await step('clicking cycles todo → done → N/A → todo, and survives refresh', async () => {
+    await cell(R2).click();
+    assert.equal(await cellState(R2), 'done');
+    await cell(R2).click();
+    assert.equal(await cellState(R2), 'na');
+    await page.reload();
+    assert.equal(await cellState(R2), 'na');
+    await cell(R2).click();
+    assert.equal(await cellState(R2), 'todo');
+    await cell(R1).click();
+    await page.reload();
+    assert.equal(await cellState(R1), 'done');
+    assert.equal(await cellState(R2), 'todo');
+    const s = await stored();
+    assert.ok(s.systems[0].rows[0].stages.done.doneAt);
+    assert.equal(s.systems[0].rows[1].stages.done.doneAt, null);
+    assert.equal(await page.locator('#overallPct').textContent(), '0.5%');
   });
 
   await step('keyboard: arrows move, Space cycles, / focuses search, Ctrl+Z undoes', async () => {
-    await cell(R1, 'draft').focus();
-    await page.keyboard.press('ArrowRight');
-    await page.keyboard.press('ArrowRight');
+    await cell(R1).focus();
     await page.keyboard.press('ArrowDown');
-    const focused = await page.evaluate(() => [document.activeElement.closest('tr').dataset.row, document.activeElement.dataset.stage]);
-    assert.deepEqual(focused, [R2, 'pdf']);
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowUp');
+    assert.equal(await page.evaluate(() => document.activeElement.closest('tr').dataset.row), R2);
     await page.keyboard.press('Space');
-    assert.equal(await cellState(R2, 'pdf'), 'done');
+    assert.equal(await cellState(R2), 'done');
     // focus stays on the cell after re-render
-    assert.equal(await page.evaluate(() => document.activeElement.dataset.stage), 'pdf');
+    assert.equal(await page.evaluate(() => document.activeElement.closest('tr').dataset.row), R2);
     await page.keyboard.press('Control+z');
-    assert.equal(await cellState(R2, 'pdf'), 'todo');
+    assert.equal(await cellState(R2), 'todo');
     await page.keyboard.press('Control+Shift+z');
-    assert.equal(await cellState(R2, 'pdf'), 'done');
+    assert.equal(await cellState(R2), 'done');
     await page.keyboard.press('Control+z');
     await page.keyboard.press('/');
     assert.equal(await page.evaluate(() => document.activeElement.id), 'search');
@@ -115,8 +113,8 @@ async function step(name, fn) {
     assert.equal(await page.locator('tr.row').count(), 169);
   });
 
-  await step('bulk-set a stage from the system header (with confirmation), then undo', async () => {
-    const hcell = page.locator('tr.sys[data-sys="dermatology"] .hcell[data-stage="figures"]');
+  await step('bulk-set a whole system from its header (with confirmation), then undo', async () => {
+    const hcell = page.locator('tr.sys[data-sys="dermatology"] .hcell');
     await hcell.click();
     await dialogButton('Cancel').click();
     assert.equal(await hcell.textContent(), '0/6');
@@ -133,16 +131,13 @@ async function step(name, fn) {
   });
 
   await step('hide completed hides rows with no todo cells', async () => {
-    const sys = page.locator('tr.sys[data-sys="ear-nose-and-throat-ent"] .hcell');
-    for (let i = 0; i < 6; i++) {
-      await sys.nth(i).click();
-      await dialogButton('Mark done').click();
-    }
+    await page.locator('tr.sys[data-sys="ear-nose-and-throat-ent"] .hcell').click();
+    await dialogButton('Mark done').click();
     await page.check('#hideCompleted');
     assert.equal(await page.locator('tr.sys[data-sys="ear-nose-and-throat-ent"]').count(), 0);
-    assert.equal(await page.locator('tr.row').count(), 168);
+    assert.equal(await page.locator('tr.row').count(), 167);
     await page.uncheck('#hideCompleted');
-    assert.match(await page.locator('#overallSub').textContent(), /^1\/169 subheadings printed/);
+    assert.match(await page.locator('#overallSub').textContent(), /^2\/169 subheadings done/);
   });
 
   await step('collapse all / expand all persist', async () => {
@@ -157,7 +152,7 @@ async function step(name, fn) {
   await step('notes save and survive refresh', async () => {
     await page.locator(`tr[data-row="${R1}"] [data-act=notes]`).click();
     await page.keyboard.type('merge with renal acid-base');
-    await page.locator(`tr[data-row="${R2}"] .cell[data-stage="draft"]`).focus();
+    await cell(R2).focus();
     await page.reload();
     assert.equal((await stored()).systems[0].rows[0].notes, 'merge with renal acid-base');
     assert.equal(await page.locator(`tr[data-row="${R1}"] .note-preview`).textContent(), 'merge with renal acid-base');
@@ -188,13 +183,13 @@ async function step(name, fn) {
   await step('next-up queue follows the rules', async () => {
     const items = await page.locator('.q-item').evaluateAll((els) => els.map((e) => e.dataset.row));
     assert.equal(items.length, 10);
-    assert.equal(items[0], R2); // first row whose next action is Draft
-    assert.ok(!items.includes(R1)); // R1's next action is PDF, later in the queue
+    assert.equal(items[0], R2); // first row still to do
+    assert.ok(!items.includes(R1)); // R1 is done
     const pinTarget = 'pharmacology-general-principles/pharmacokinetics';
     await page.locator(`tr[data-row="${pinTarget}"] [data-act=pin]`).click();
     assert.equal(await page.locator('.q-item').first().getAttribute('data-row'), pinTarget);
     await page.locator('.queue .more').click();
-    assert.equal(await page.locator('.q-item').count(), 168);
+    assert.equal(await page.locator('.q-item').count(), 167);
     await page.locator('.queue .more').click();
     await page.locator('.q-item').nth(3).locator('.q-main').click();
     const target = await page.locator('.q-item').nth(3).getAttribute('data-row');
@@ -256,7 +251,7 @@ async function step(name, fn) {
   fs.writeFileSync(newer, JSON.stringify({ ...exported.json, schemaVersion: 7 }));
   const broken = path.join(tmp, 'broken.json');
   const b = JSON.parse(JSON.stringify(exported.json));
-  b.systems[3].rows[2].stages.pdf.state = 'finished';
+  b.systems[3].rows[2].stages.done.state = 'finished';
   fs.writeFileSync(broken, JSON.stringify(b));
 
   for (const [label, file, re] of [
@@ -288,20 +283,67 @@ async function step(name, fn) {
   await step('import → Merge keeps local progress and adds the more advanced cells', async () => {
     // local change after the export
     const R3 = 'dermatology/skin-and-soft-tissue-infections';
-    await cell(R3, 'draft').click();
+    await cell(R3).click();
     const other = JSON.parse(JSON.stringify(exported.json));
-    other.systems[0].rows[0].stages.print = { state: 'done', doneAt: '2026-01-01T00:00:00.000Z' };
+    other.systems[0].rows[1].stages.done = { state: 'done', doneAt: '2026-01-01T00:00:00.000Z' };
     other.systems[0].rows.push({ id: 'allergy-and-immunology/from-laptop', name: 'From laptop', notes: '', pinned: false,
-      stages: Object.fromEntries(['draft', 'solve', 'pdf', 'merge', 'figures', 'print'].map((s) => [s, { state: 'todo', doneAt: null }])) });
+      stages: { done: { state: 'todo', doneAt: null } } });
     const f = path.join(tmp, 'other.json');
     fs.writeFileSync(f, JSON.stringify(other));
     await importFile(f);
     await download(() => dialogButton('Merge').click());
-    assert.equal(await cellState(R3, 'draft'), 'done');
-    assert.equal(await cellState(R1, 'print'), 'done');
+    assert.equal(await cellState(R3), 'done');
+    assert.equal(await cellState(R2), 'done');
     assert.equal(await page.locator('tr[data-row="allergy-and-immunology/from-laptop"]').count(), 1);
     await page.keyboard.press('Control+z');
     assert.equal(await page.locator('tr[data-row="allergy-and-immunology/from-laptop"]').count(), 0);
+  });
+
+  const V1 = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
+  const toV1 = (st, fill) => {
+    const x = JSON.parse(JSON.stringify(st));
+    x.schemaVersion = 1;
+    x.stages = V1;
+    x.systems.forEach((sy) => sy.rows.forEach((r) => {
+      const c = r.stages.done;
+      r.stages = Object.fromEntries(V1.map((k) => [k, { ...c }]));
+    }));
+    fill(x);
+    return x;
+  };
+
+  await step('an old six-column (v1) export imports and migrates to the Done column', async () => {
+    const R4 = 'cardiovascular-system/hypertension';
+    const R5 = 'cardiovascular-system/heart-failure-and-shock';
+    const v1 = toV1(await stored(), (x) => {
+      const rows = x.systems.find((sy) => sy.id === 'cardiovascular-system').rows;
+      const all = rows.find((r) => r.id === R4).stages;
+      V1.forEach((k) => { all[k] = { state: 'done', doneAt: '2026-01-05T00:00:00.000Z' }; });
+      rows.find((r) => r.id === R5).stages.draft = { state: 'done', doneAt: '2026-01-05T00:00:00.000Z' }; // partial: stays to do
+    });
+    const f = path.join(tmp, 'v1.json');
+    fs.writeFileSync(f, JSON.stringify(v1));
+    await importFile(f);
+    await download(() => dialogButton('Merge').click());
+    assert.equal(await cellState(R4), 'done');
+    assert.equal(await cellState(R5), 'todo');
+    assert.equal((await stored()).schemaVersion, 2);
+  });
+
+  await step('six-column (v1) data already saved in the browser is upgraded on open', async () => {
+    const R6 = 'nervous-system/headache';
+    const prevState = await stored();
+    await page.evaluate(([k, v]) => { localStorage.setItem(k, v); }, [KEY, JSON.stringify(toV1(prevState, (x) => {
+      const r = x.systems.flatMap((sy) => sy.rows).find((row) => row.id === R6);
+      V1.forEach((k) => { r.stages[k] = { state: k === 'figures' ? 'na' : 'done', doneAt: k === 'figures' ? null : '2026-01-06T00:00:00.000Z' }; });
+    }))]);
+    await page.reload();
+    assert.equal(await page.locator('#banner.error').count(), 0);
+    assert.equal(await cellState(R6), 'done');
+    assert.equal(await cellState(R1), 'done');
+    await cell(R6).click(); // next save writes v2
+    assert.equal((await stored()).schemaVersion, 2);
+    await page.keyboard.press('Control+z');
   });
 
   await step('corrupted saved data is set aside, not wiped, and the app still opens', async () => {

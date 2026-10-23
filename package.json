@@ -1,8 +1,8 @@
 {
-  "name": "uworld-master-tracker",
+  "name": "usmle-step-1-topics",
   "version": "1.0.0",
   "private": true,
-  "description": "Offline progress tracker for the USMLE master-material pipeline. Open index.html directly.",
+  "description": "Offline checklist of UWorld USMLE Step 1 topics. Open index.html directly.",
   "scripts": {
     "seed": "node scripts/parse-seed.js",
     "build": "node scripts/build.js",

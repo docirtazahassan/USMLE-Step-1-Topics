@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Master Material Tracker</title>
+<title>USMLE Step 1 Topics</title>
 <style>
 :root {
   --bg: #f6f7f9;
@@ -22,8 +22,8 @@
   --warn: #c27803;
   --danger: #c62828;
   --flash: #ffe9a8;
-  --name-w: 340px;
-  --cell-w: 58px;
+  --name-w: 420px;
+  --cell-w: 84px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -79,15 +79,6 @@ button, input, textarea { font: inherit; color: inherit; }
 .bar { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
 .bar > i { display: block; height: 100%; width: 0; background: var(--done); }
 .bar.big { height: 8px; }
-.stage-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
-.chip {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: 3px 8px; border: 1px solid var(--border); border-radius: 6px;
-  background: var(--panel-2); min-width: 74px;
-}
-.chip b { font-weight: 600; font-size: 11px; color: var(--muted); }
-.chip span { font-variant-numeric: tabular-nums; font-weight: 600; }
-.chip .bar { height: 3px; border: 0; }
 .tb-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
 .export-age { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .export-age.nudge { color: var(--warn); font-weight: 600; }
@@ -131,7 +122,8 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 /* ---------- Grid ---------- */
-.grid { border-collapse: separate; border-spacing: 0; width: 100%; }
+.grid { border-collapse: separate; border-spacing: 0; width: 100%; max-width: 900px; }
+.grid thead th:not(.col-name) { width: 1%; }
 .grid th, .grid td { padding: 0; border-bottom: 1px solid var(--border); background: var(--panel); }
 .grid thead th {
   position: sticky; top: 0; z-index: 3;
@@ -141,7 +133,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .grid .col-name {
   position: sticky; left: 0; z-index: 2;
-  min-width: var(--name-w); max-width: 520px;
+  min-width: var(--name-w); max-width: 560px;
   text-align: left; font-weight: normal; border-right: 1px solid var(--border);
 }
 .grid thead th.col-name { z-index: 4; padding-left: 12px; }
@@ -198,10 +190,6 @@ tr:hover .tool, tr:focus-within .tool, .tool.on { opacity: 1; }
 }
 .s-na .box { background: var(--na); border-color: var(--na); }
 .s-na .box::after { content: ""; width: 8px; height: 2px; background: var(--panel); border-radius: 1px; }
-.warn {
-  position: absolute; top: 3px; right: 6px; font-size: 10px; font-weight: 800; line-height: 1;
-  color: var(--warn);
-}
 tr.row.complete .rname { color: var(--muted); }
 
 tr.notes-row td { padding: 4px 8px 8px 30px; background: var(--panel); }
@@ -276,10 +264,10 @@ dialog table td { padding: 3px 10px 3px 0; }
 
 /* ---------- Narrow screens ---------- */
 @media (max-width: 1100px) {
-  :root { --name-w: 270px; }
+  :root { --name-w: 320px; }
 }
 @media (max-width: 860px) {
-  :root { --name-w: 190px; --cell-w: 46px; }
+  :root { --name-w: 250px; --cell-w: 64px; }
   body { overflow: auto; display: block; }
   .grid .col-name { max-width: var(--name-w); }
   .rname { white-space: normal; overflow-wrap: anywhere; }
@@ -294,7 +282,6 @@ dialog table td { padding: 3px 10px 3px 0; }
   .save-status { margin-left: 0; }
   tr.row .col-name { padding-left: 12px; }
   .sys-prog, .sys-tally { margin-left: 4px; }
-  .chip { min-width: 0; padding: 2px 6px; }
 }
 
 </style>
@@ -309,7 +296,6 @@ dialog table td { padding: 3px 10px 3px 0; }
         <div class="muted small" id="overallSub"></div>
       </div>
     </div>
-    <div class="stage-chips" id="stageChips"></div>
     <div class="tb-actions">
       <span class="export-age" id="exportAge"></span>
       <button class="btn" id="btnExport" title="Download a JSON backup">Export</button>
@@ -373,16 +359,42 @@ dialog table td { padding: 3px 10px 3px 0; }
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  const SCHEMA_VERSION = 1;
-  const STAGES = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
-  const STAGE_LABELS = { draft: 'Draft', solve: 'Solve', pdf: 'PDF', merge: 'Merge', figures: 'Figures', print: 'Print' };
+  const SCHEMA_VERSION = 2;
+  // One status column per subheading. The code works for any number of columns,
+  // so more can be added later (bump SCHEMA_VERSION and add a migration).
+  const STAGES = ['done'];
+  const STAGE_LABELS = { done: 'Done' };
   const STATES = ['todo', 'done', 'na'];
   // How "advanced" a cell is, used when merging: done beats N/A beats todo.
   const RANK = { todo: 0, na: 1, done: 2 };
 
   // Migrations from older schema versions: MIGRATIONS[n] turns version n into n + 1.
-  // There are none yet, so any file older than v1 is rejected rather than guessed at.
-  const MIGRATIONS = {};
+  // They are defensive: anything malformed is passed through for validation to reject.
+  const V1_STAGES = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
+  const MIGRATIONS = {
+    // v1 had six pipeline columns. A row becomes done when every column was done or N/A
+    // (and at least one was done), N/A when all were N/A, otherwise to do.
+    1: (d) => {
+      const obj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+      const migrateRow = (r) => {
+        if (!obj(r) || !obj(r.stages)) return r;
+        const cells = V1_STAGES.map((k) => r.stages[k]);
+        if (!cells.every(obj)) return r;
+        const states = cells.map((c) => c.state);
+        const state = states.every((x) => x === 'na') ? 'na'
+          : states.every((x) => x === 'done' || x === 'na') ? 'done' : 'todo';
+        const doneAt = state === 'done'
+          ? cells.map((c) => c.doneAt).filter((x) => typeof x === 'string').sort().pop() || null
+          : null;
+        return { ...r, stages: { done: { state, doneAt } } };
+      };
+      const systems = Array.isArray(d.systems)
+        ? d.systems.map((s) => (obj(s) && Array.isArray(s.rows) ? { ...s, rows: s.rows.map(migrateRow) } : s))
+        : d.systems;
+      const stagesOk = Array.isArray(d.stages) && d.stages.join() === V1_STAGES.join();
+      return { ...d, schemaVersion: 2, stages: stagesOk ? STAGES.slice() : d.stages, systems };
+    },
+  };
 
   const clone = (x) => JSON.parse(JSON.stringify(x));
 
@@ -527,16 +539,8 @@ dialog table td { padding: 3px 10px 3px 0; }
     const rows = state.systems.flatMap((s) => s.rows);
     const t = tally(rows, state.stages);
     t.totalRows = rows.length;
-    t.fullyPrinted = rows.filter((r) => r.stages.print && r.stages.print.state === 'done').length;
     t.completeRows = rows.filter((r) => isRowComplete(r, state.stages)).length;
     return t;
-  }
-
-  // If this cell is done, list the earlier stages that are still todo (soft order check).
-  function orderWarning(row, stage, stages) {
-    stages = stages || STAGES;
-    if (row.stages[stage].state !== 'done') return [];
-    return stages.slice(0, stages.indexOf(stage)).filter((s) => row.stages[s].state === 'todo');
   }
 
   /* ---------- Next up ---------- */
@@ -742,7 +746,7 @@ dialog table td { padding: 3px 10px 3px 0; }
     SCHEMA_VERSION, STAGES, STAGE_LABELS, STATES, RANK, MIGRATIONS,
     clone, slugify, uniqueId, parseMarkdown, emptyCells, newRow, stateFromSeed,
     allRowIds, findRow, nextCellState, setCell, tally, isRowComplete, overallProgress,
-    orderWarning, nextAction, nextUpQueue, validateImport, mergeStates, mergeNotes,
+    nextAction, nextUpQueue, validateImport, mergeStates, mergeNotes,
   };
 });
 
@@ -910,7 +914,7 @@ dialog table td { padding: 3px 10px 3px 0; }
     const hit = C.findRow(state, rowId);
     if (!hit) return;
     const to = C.nextCellState(hit.row.stages[stage].state);
-    commit(`${L[stage]} → ${STATE_WORD[to]} (${hit.row.name})`, (d) => {
+    commit(`${hit.row.name} → ${STATE_WORD[to]}`, (d) => {
       C.setCell(C.findRow(d, rowId).row.stages[stage], to);
     });
   }
@@ -921,8 +925,8 @@ dialog table td { padding: 3px 10px 3px 0; }
     const t = C.tally(sys.rows).perStage[stage];
     const todo = sys.rows.length - t.done - t.na;
     const r = await dialog({
-      title: `Set ${L[stage]} for all of ${sys.name}?`,
-      html: `<p>This sets the <b>${L[stage]}</b> cell on all ${plural(sys.rows.length, 'subheading')}
+      title: `Mark every subheading in ${sys.name}?`,
+      html: `<p>This sets all ${plural(sys.rows.length, 'subheading')}
         (now ${t.done} done, ${t.na} N/A, ${todo} to do). Ctrl+Z undoes it.</p>`,
       buttons: [
         { label: 'Cancel', value: 'cancel' },
@@ -932,7 +936,7 @@ dialog table td { padding: 3px 10px 3px 0; }
       ],
     });
     if (!C.STATES.includes(r.value)) return;
-    const label = `${L[stage]} → ${STATE_WORD[r.value]} for all of ${sys.name}`;
+    const label = `All of ${sys.name} → ${STATE_WORD[r.value]}`;
     const now = new Date().toISOString();
     if (commit(label, (d) => { sysById(d, sysId).rows.forEach((row) => C.setCell(row.stages[stage], r.value, now)); })) {
       toast(label, true);
@@ -1163,12 +1167,10 @@ dialog table td { padding: 3px 10px 3px 0; }
 
   function cellHtml(row, st) {
     const c = row.stages[st];
-    const warn = C.orderWarning(row, st);
     let title = `${L[st]}: ${STATE_WORD[c.state]}`;
     if (c.doneAt) title += ` (${fmtDate(c.doneAt)})`;
-    if (warn.length) title += `. Warning: done before ${warn.map((s) => L[s]).join(', ')}`;
     return `<td><button class="cell s-${c.state}" data-stage="${st}" tabindex="-1" title="${esc(title)}"
-      aria-label="${esc(`${row.name}, ${title}`)}"><span class="box"></span>${warn.length ? '<span class="warn" aria-hidden="true">!</span>' : ''}</button></td>`;
+      aria-label="${esc(`${row.name}, ${title}`)}"><span class="box"></span></button></td>`;
   }
 
   function rowHtml(sys, row) {
@@ -1207,8 +1209,8 @@ dialog table td { padding: 3px 10px 3px 0; }
       const p = t.perStage[st];
       const full = p.applicable && p.done === p.applicable;
       return `<td><button class="hcell${full ? ' full' : ''}" data-stage="${st}" tabindex="-1"
-        title="${L[st]}: ${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}. Click to set for every subheading."
-        aria-label="${esc(sys.name)} ${L[st]}: ${p.done} of ${p.applicable} done. Set for all.">${p.applicable ? `${p.done}/${p.applicable}` : '—'}</button></td>`;
+        title="${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}. Click to set every subheading."
+        aria-label="${esc(sys.name)}: ${p.done} of ${p.applicable} done. Set all.">${p.applicable ? `${p.done}/${p.applicable}` : '—'}</button></td>`;
     }).join('');
     html += '</tr>';
     if (expanded) html += rows.map((r) => rowHtml(sys, r)).join('');
@@ -1250,12 +1252,8 @@ dialog table td { padding: 3px 10px 3px 0; }
     const o = C.overallProgress(state);
     $('overallPct').textContent = fmtPct(o.pct);
     $('overallBar').style.width = `${o.pct || 0}%`;
-    $('overallSub').innerHTML = `<b>${o.fullyPrinted}</b>/${o.totalRows} subheadings printed · ${o.done}/${o.applicable} cells`;
-    $('stageChips').innerHTML = STAGES.map((st) => {
-      const p = o.perStage[st];
-      return `<div class="chip" title="${L[st]}: ${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}">
-        <b>${L[st]}</b><span>${fmtPct(p.pct)}</span><div class="bar"><i style="width:${p.pct || 0}%"></i></div></div>`;
-    }).join('');
+    const na = o.totalRows - o.applicable;
+    $('overallSub').innerHTML = `<b>${o.done}</b>/${o.applicable} subheadings done${na ? ` · ${na} N/A` : ''}`;
 
     const changes = meta.changesSinceExport || 0;
     const days = meta.lastExportAt ? Math.floor((Date.now() - Date.parse(meta.lastExportAt)) / 864e5) : null;
@@ -1277,7 +1275,7 @@ dialog table td { padding: 3px 10px 3px 0; }
     const items = C.nextUpQueue(state);
     $('queueCount').textContent = items.length ? `${items.length} open` : '';
     if (!items.length) {
-      $('queueList').innerHTML = '<p class="muted">Nothing left to do. Every subheading is complete.</p>';
+      $('queueList').innerHTML = '<p class="muted">Nothing left to do. Every subheading is done.</p>';
       return;
     }
     const shown = ui.queueAll ? items : items.slice(0, QUEUE_DEFAULT);
@@ -1289,10 +1287,10 @@ dialog table td { padding: 3px 10px 3px 0; }
       if (!groups.length || groups[groups.length - 1].key !== g) groups.push({ key: g, items: [] });
       groups[groups.length - 1].items.push(it);
     });
-    let html = groups.map((g) => `<h3><span>${g.key === 'pinned' ? 'Pinned' : `Next: ${L[g.key]}`}</span><span>${totals[g.key]}</span></h3>`
+    let html = groups.map((g) => `<h3><span>${g.key === 'pinned' ? 'Pinned' : STAGES.length > 1 ? `Next: ${L[g.key]}` : 'To do'}</span><span>${totals[g.key]}</span></h3>`
       + g.items.map((it) => `<div class="q-item" data-row="${esc(it.rowId)}">
           <button class="q-main" data-act="goto" title="Go to row">
-            <span class="q-name">${esc(it.rowName)}${it.pinned ? `<span class="q-stage">${L[it.stage]}</span>` : ''}</span>
+            <span class="q-name">${esc(it.rowName)}${it.pinned && STAGES.length > 1 ? `<span class="q-stage">${L[it.stage]}</span>` : ''}</span>
             <span class="q-sys">${esc(it.systemName)}</span>
           </button>
           <button class="tool q-pin${it.pinned ? ' on' : ''}" data-act="pin" title="${it.pinned ? 'Unpin' : 'Pin to top'}" aria-pressed="${it.pinned}">&#9733;</button>
@@ -1423,8 +1421,8 @@ dialog table td { padding: 3px 10px 3px 0; }
 
   function showHelp() {
     const keys = [
-      ['← ↑ → ↓', 'Move between cells'],
-      ['Space / Enter', 'Cycle cell: to do → done → N/A (on a system row: set all)'],
+      ['↑ ↓', 'Move between rows'],
+      ['Space / Enter', 'Cycle: to do → done → N/A (on a system row: set all)'],
       ['/', 'Focus search'],
       ['Esc', 'Clear search / close menus'],
       ['Ctrl+Z', 'Undo (last 50 actions)'],
@@ -1434,7 +1432,7 @@ dialog table td { padding: 3px 10px 3px 0; }
     dialog({
       title: 'Keyboard shortcuts',
       html: `<table>${keys.map(([k, d]) => `<tr><td><kbd>${esc(k)}</kbd></td><td>${esc(d)}</td></tr>`).join('')}</table>
-        <p class="muted small" style="margin-top:10px">A <b style="color:var(--warn)">!</b> on a cell means it was marked done while an earlier stage is still to do.</p>`,
+`,
       buttons: [{ label: 'Close', value: 'ok', kind: 'primary', isDefault: true }],
     });
   }

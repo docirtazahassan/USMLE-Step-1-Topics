@@ -14,8 +14,8 @@
   --warn: #c27803;
   --danger: #c62828;
   --flash: #ffe9a8;
-  --name-w: 340px;
-  --cell-w: 58px;
+  --name-w: 420px;
+  --cell-w: 84px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -71,15 +71,6 @@ button, input, textarea { font: inherit; color: inherit; }
 .bar { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
 .bar > i { display: block; height: 100%; width: 0; background: var(--done); }
 .bar.big { height: 8px; }
-.stage-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
-.chip {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: 3px 8px; border: 1px solid var(--border); border-radius: 6px;
-  background: var(--panel-2); min-width: 74px;
-}
-.chip b { font-weight: 600; font-size: 11px; color: var(--muted); }
-.chip span { font-variant-numeric: tabular-nums; font-weight: 600; }
-.chip .bar { height: 3px; border: 0; }
 .tb-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
 .export-age { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .export-age.nudge { color: var(--warn); font-weight: 600; }
@@ -123,7 +114,8 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 /* ---------- Grid ---------- */
-.grid { border-collapse: separate; border-spacing: 0; width: 100%; }
+.grid { border-collapse: separate; border-spacing: 0; width: 100%; max-width: 900px; }
+.grid thead th:not(.col-name) { width: 1%; }
 .grid th, .grid td { padding: 0; border-bottom: 1px solid var(--border); background: var(--panel); }
 .grid thead th {
   position: sticky; top: 0; z-index: 3;
@@ -133,7 +125,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .grid .col-name {
   position: sticky; left: 0; z-index: 2;
-  min-width: var(--name-w); max-width: 520px;
+  min-width: var(--name-w); max-width: 560px;
   text-align: left; font-weight: normal; border-right: 1px solid var(--border);
 }
 .grid thead th.col-name { z-index: 4; padding-left: 12px; }
@@ -190,10 +182,6 @@ tr:hover .tool, tr:focus-within .tool, .tool.on { opacity: 1; }
 }
 .s-na .box { background: var(--na); border-color: var(--na); }
 .s-na .box::after { content: ""; width: 8px; height: 2px; background: var(--panel); border-radius: 1px; }
-.warn {
-  position: absolute; top: 3px; right: 6px; font-size: 10px; font-weight: 800; line-height: 1;
-  color: var(--warn);
-}
 tr.row.complete .rname { color: var(--muted); }
 
 tr.notes-row td { padding: 4px 8px 8px 30px; background: var(--panel); }
@@ -268,10 +256,10 @@ dialog table td { padding: 3px 10px 3px 0; }
 
 /* ---------- Narrow screens ---------- */
 @media (max-width: 1100px) {
-  :root { --name-w: 270px; }
+  :root { --name-w: 320px; }
 }
 @media (max-width: 860px) {
-  :root { --name-w: 190px; --cell-w: 46px; }
+  :root { --name-w: 250px; --cell-w: 64px; }
   body { overflow: auto; display: block; }
   .grid .col-name { max-width: var(--name-w); }
   .rname { white-space: normal; overflow-wrap: anywhere; }
@@ -286,5 +274,4 @@ dialog table td { padding: 3px 10px 3px 0; }
   .save-status { margin-left: 0; }
   tr.row .col-name { padding-left: 12px; }
   .sys-prog, .sys-tally { margin-left: 4px; }
-  .chip { min-width: 0; padding: 2px 6px; }
 }

@@ -8,16 +8,42 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  const SCHEMA_VERSION = 1;
-  const STAGES = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
-  const STAGE_LABELS = { draft: 'Draft', solve: 'Solve', pdf: 'PDF', merge: 'Merge', figures: 'Figures', print: 'Print' };
+  const SCHEMA_VERSION = 2;
+  // One status column per subheading. The code works for any number of columns,
+  // so more can be added later (bump SCHEMA_VERSION and add a migration).
+  const STAGES = ['done'];
+  const STAGE_LABELS = { done: 'Done' };
   const STATES = ['todo', 'done', 'na'];
   // How "advanced" a cell is, used when merging: done beats N/A beats todo.
   const RANK = { todo: 0, na: 1, done: 2 };
 
   // Migrations from older schema versions: MIGRATIONS[n] turns version n into n + 1.
-  // There are none yet, so any file older than v1 is rejected rather than guessed at.
-  const MIGRATIONS = {};
+  // They are defensive: anything malformed is passed through for validation to reject.
+  const V1_STAGES = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
+  const MIGRATIONS = {
+    // v1 had six pipeline columns. A row becomes done when every column was done or N/A
+    // (and at least one was done), N/A when all were N/A, otherwise to do.
+    1: (d) => {
+      const obj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+      const migrateRow = (r) => {
+        if (!obj(r) || !obj(r.stages)) return r;
+        const cells = V1_STAGES.map((k) => r.stages[k]);
+        if (!cells.every(obj)) return r;
+        const states = cells.map((c) => c.state);
+        const state = states.every((x) => x === 'na') ? 'na'
+          : states.every((x) => x === 'done' || x === 'na') ? 'done' : 'todo';
+        const doneAt = state === 'done'
+          ? cells.map((c) => c.doneAt).filter((x) => typeof x === 'string').sort().pop() || null
+          : null;
+        return { ...r, stages: { done: { state, doneAt } } };
+      };
+      const systems = Array.isArray(d.systems)
+        ? d.systems.map((s) => (obj(s) && Array.isArray(s.rows) ? { ...s, rows: s.rows.map(migrateRow) } : s))
+        : d.systems;
+      const stagesOk = Array.isArray(d.stages) && d.stages.join() === V1_STAGES.join();
+      return { ...d, schemaVersion: 2, stages: stagesOk ? STAGES.slice() : d.stages, systems };
+    },
+  };
 
   const clone = (x) => JSON.parse(JSON.stringify(x));
 
@@ -162,16 +188,8 @@
     const rows = state.systems.flatMap((s) => s.rows);
     const t = tally(rows, state.stages);
     t.totalRows = rows.length;
-    t.fullyPrinted = rows.filter((r) => r.stages.print && r.stages.print.state === 'done').length;
     t.completeRows = rows.filter((r) => isRowComplete(r, state.stages)).length;
     return t;
-  }
-
-  // If this cell is done, list the earlier stages that are still todo (soft order check).
-  function orderWarning(row, stage, stages) {
-    stages = stages || STAGES;
-    if (row.stages[stage].state !== 'done') return [];
-    return stages.slice(0, stages.indexOf(stage)).filter((s) => row.stages[s].state === 'todo');
   }
 
   /* ---------- Next up ---------- */
@@ -377,6 +395,6 @@
     SCHEMA_VERSION, STAGES, STAGE_LABELS, STATES, RANK, MIGRATIONS,
     clone, slugify, uniqueId, parseMarkdown, emptyCells, newRow, stateFromSeed,
     allRowIds, findRow, nextCellState, setCell, tally, isRowComplete, overallProgress,
-    orderWarning, nextAction, nextUpQueue, validateImport, mergeStates, mergeNotes,
+    nextAction, nextUpQueue, validateImport, mergeStates, mergeNotes,
   };
 });

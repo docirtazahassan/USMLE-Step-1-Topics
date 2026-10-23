@@ -160,7 +160,7 @@
     const hit = C.findRow(state, rowId);
     if (!hit) return;
     const to = C.nextCellState(hit.row.stages[stage].state);
-    commit(`${L[stage]} → ${STATE_WORD[to]} (${hit.row.name})`, (d) => {
+    commit(`${hit.row.name} → ${STATE_WORD[to]}`, (d) => {
       C.setCell(C.findRow(d, rowId).row.stages[stage], to);
     });
   }
@@ -171,8 +171,8 @@
     const t = C.tally(sys.rows).perStage[stage];
     const todo = sys.rows.length - t.done - t.na;
     const r = await dialog({
-      title: `Set ${L[stage]} for all of ${sys.name}?`,
-      html: `<p>This sets the <b>${L[stage]}</b> cell on all ${plural(sys.rows.length, 'subheading')}
+      title: `Mark every subheading in ${sys.name}?`,
+      html: `<p>This sets all ${plural(sys.rows.length, 'subheading')}
         (now ${t.done} done, ${t.na} N/A, ${todo} to do). Ctrl+Z undoes it.</p>`,
       buttons: [
         { label: 'Cancel', value: 'cancel' },
@@ -182,7 +182,7 @@
       ],
     });
     if (!C.STATES.includes(r.value)) return;
-    const label = `${L[stage]} → ${STATE_WORD[r.value]} for all of ${sys.name}`;
+    const label = `All of ${sys.name} → ${STATE_WORD[r.value]}`;
     const now = new Date().toISOString();
     if (commit(label, (d) => { sysById(d, sysId).rows.forEach((row) => C.setCell(row.stages[stage], r.value, now)); })) {
       toast(label, true);
@@ -413,12 +413,10 @@
 
   function cellHtml(row, st) {
     const c = row.stages[st];
-    const warn = C.orderWarning(row, st);
     let title = `${L[st]}: ${STATE_WORD[c.state]}`;
     if (c.doneAt) title += ` (${fmtDate(c.doneAt)})`;
-    if (warn.length) title += `. Warning: done before ${warn.map((s) => L[s]).join(', ')}`;
     return `<td><button class="cell s-${c.state}" data-stage="${st}" tabindex="-1" title="${esc(title)}"
-      aria-label="${esc(`${row.name}, ${title}`)}"><span class="box"></span>${warn.length ? '<span class="warn" aria-hidden="true">!</span>' : ''}</button></td>`;
+      aria-label="${esc(`${row.name}, ${title}`)}"><span class="box"></span></button></td>`;
   }
 
   function rowHtml(sys, row) {
@@ -457,8 +455,8 @@
       const p = t.perStage[st];
       const full = p.applicable && p.done === p.applicable;
       return `<td><button class="hcell${full ? ' full' : ''}" data-stage="${st}" tabindex="-1"
-        title="${L[st]}: ${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}. Click to set for every subheading."
-        aria-label="${esc(sys.name)} ${L[st]}: ${p.done} of ${p.applicable} done. Set for all.">${p.applicable ? `${p.done}/${p.applicable}` : '—'}</button></td>`;
+        title="${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}. Click to set every subheading."
+        aria-label="${esc(sys.name)}: ${p.done} of ${p.applicable} done. Set all.">${p.applicable ? `${p.done}/${p.applicable}` : '—'}</button></td>`;
     }).join('');
     html += '</tr>';
     if (expanded) html += rows.map((r) => rowHtml(sys, r)).join('');
@@ -500,12 +498,8 @@
     const o = C.overallProgress(state);
     $('overallPct').textContent = fmtPct(o.pct);
     $('overallBar').style.width = `${o.pct || 0}%`;
-    $('overallSub').innerHTML = `<b>${o.fullyPrinted}</b>/${o.totalRows} subheadings printed · ${o.done}/${o.applicable} cells`;
-    $('stageChips').innerHTML = STAGES.map((st) => {
-      const p = o.perStage[st];
-      return `<div class="chip" title="${L[st]}: ${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}">
-        <b>${L[st]}</b><span>${fmtPct(p.pct)}</span><div class="bar"><i style="width:${p.pct || 0}%"></i></div></div>`;
-    }).join('');
+    const na = o.totalRows - o.applicable;
+    $('overallSub').innerHTML = `<b>${o.done}</b>/${o.applicable} subheadings done${na ? ` · ${na} N/A` : ''}`;
 
     const changes = meta.changesSinceExport || 0;
     const days = meta.lastExportAt ? Math.floor((Date.now() - Date.parse(meta.lastExportAt)) / 864e5) : null;
@@ -527,7 +521,7 @@
     const items = C.nextUpQueue(state);
     $('queueCount').textContent = items.length ? `${items.length} open` : '';
     if (!items.length) {
-      $('queueList').innerHTML = '<p class="muted">Nothing left to do. Every subheading is complete.</p>';
+      $('queueList').innerHTML = '<p class="muted">Nothing left to do. Every subheading is done.</p>';
       return;
     }
     const shown = ui.queueAll ? items : items.slice(0, QUEUE_DEFAULT);
@@ -539,10 +533,10 @@
       if (!groups.length || groups[groups.length - 1].key !== g) groups.push({ key: g, items: [] });
       groups[groups.length - 1].items.push(it);
     });
-    let html = groups.map((g) => `<h3><span>${g.key === 'pinned' ? 'Pinned' : `Next: ${L[g.key]}`}</span><span>${totals[g.key]}</span></h3>`
+    let html = groups.map((g) => `<h3><span>${g.key === 'pinned' ? 'Pinned' : STAGES.length > 1 ? `Next: ${L[g.key]}` : 'To do'}</span><span>${totals[g.key]}</span></h3>`
       + g.items.map((it) => `<div class="q-item" data-row="${esc(it.rowId)}">
           <button class="q-main" data-act="goto" title="Go to row">
-            <span class="q-name">${esc(it.rowName)}${it.pinned ? `<span class="q-stage">${L[it.stage]}</span>` : ''}</span>
+            <span class="q-name">${esc(it.rowName)}${it.pinned && STAGES.length > 1 ? `<span class="q-stage">${L[it.stage]}</span>` : ''}</span>
             <span class="q-sys">${esc(it.systemName)}</span>
           </button>
           <button class="tool q-pin${it.pinned ? ' on' : ''}" data-act="pin" title="${it.pinned ? 'Unpin' : 'Pin to top'}" aria-pressed="${it.pinned}">&#9733;</button>
@@ -673,8 +667,8 @@
 
   function showHelp() {
     const keys = [
-      ['← ↑ → ↓', 'Move between cells'],
-      ['Space / Enter', 'Cycle cell: to do → done → N/A (on a system row: set all)'],
+      ['↑ ↓', 'Move between rows'],
+      ['Space / Enter', 'Cycle: to do → done → N/A (on a system row: set all)'],
       ['/', 'Focus search'],
       ['Esc', 'Clear search / close menus'],
       ['Ctrl+Z', 'Undo (last 50 actions)'],
@@ -684,7 +678,7 @@
     dialog({
       title: 'Keyboard shortcuts',
       html: `<table>${keys.map(([k, d]) => `<tr><td><kbd>${esc(k)}</kbd></td><td>${esc(d)}</td></tr>`).join('')}</table>
-        <p class="muted small" style="margin-top:10px">A <b style="color:var(--warn)">!</b> on a cell means it was marked done while an earlier stage is still to do.</p>`,
+`,
       buttons: [{ label: 'Close', value: 'ok', kind: 'primary', isDefault: true }],
     });
   }
