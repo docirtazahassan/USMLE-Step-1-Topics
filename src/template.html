@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>USMLE Step 1 Topics</title>
+<style>
+/*INLINE:styles.css*/
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="tb-row">
+    <div class="overall">
+      <div class="overall-pct" id="overallPct">0%</div>
+      <div class="overall-meta">
+        <div class="bar big"><i id="overallBar"></i></div>
+        <div class="muted small" id="overallSub"></div>
+      </div>
+    </div>
+    <div class="tb-actions">
+      <span class="export-age" id="exportAge"></span>
+      <button class="btn" id="btnExport" title="Download a JSON backup">Export</button>
+      <button class="btn" id="btnImport" title="Import a JSON backup">Import</button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+      <button class="btn icon-btn" id="btnUndo" title="Undo (Ctrl+Z)" aria-label="Undo">&#8630;</button>
+      <button class="btn icon-btn" id="btnRedo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">&#8631;</button>
+      <button class="btn icon-btn" id="btnMore" title="More actions" aria-label="More actions" aria-haspopup="menu">&#8942;</button>
+    </div>
+  </div>
+  <div class="tb-row controls">
+    <input type="search" id="search" placeholder="Search systems or subheadings  ( / )" autocomplete="off" aria-label="Search">
+    <label class="toggle"><input type="checkbox" id="hideCompleted"> Hide completed</label>
+    <button class="btn ghost" id="btnCollapseAll">Collapse all</button>
+    <button class="btn ghost" id="btnExpandAll">Expand all</button>
+    <button class="btn ghost" id="btnQueue" aria-controls="queue">Next up</button>
+    <span class="save-status muted small" id="saveStatus" aria-live="polite"></span>
+  </div>
+  <div class="banner" id="banner" hidden></div>
+</header>
+
+<main class="layout">
+  <div class="grid-wrap" id="gridWrap">
+    <table class="grid" id="grid" role="grid" aria-label="Pipeline progress"></table>
+    <p class="empty muted" id="emptyMsg" hidden>No subheadings match.</p>
+  </div>
+  <aside class="queue" id="queue" aria-label="Next up">
+    <div class="queue-head">
+      <h2>Next up</h2>
+      <span class="muted small" id="queueCount"></span>
+    </div>
+    <div id="queueList"></div>
+  </aside>
+</main>
+
+<div class="menu" id="moreMenu" role="menu" hidden>
+  <button role="menuitem" data-act="reseed">Merge subheadings from seed…</button>
+  <button role="menuitem" data-act="reset" class="danger">Reset to seed…</button>
+  <hr>
+  <button role="menuitem" data-act="help">Keyboard shortcuts</button>
+</div>
+<div class="menu" id="rowMenu" role="menu" hidden>
+  <button role="menuitem" data-act="rename">Rename</button>
+  <button role="menuitem" data-act="up">Move up</button>
+  <button role="menuitem" data-act="down">Move down</button>
+  <button role="menuitem" data-act="delete" class="danger">Delete…</button>
+</div>
+
+<dialog id="dialog"><form method="dialog" id="dialogForm"></form></dialog>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>window.TRACKER_SEED = /*INLINE:seed.json*/;</script>
+<script>
+/*INLINE:core.js*/
+</script>
+<script>
+/*INLINE:app.js*/
+</script>
+</body>
+</html>

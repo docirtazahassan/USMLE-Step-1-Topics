@@ -1,0 +1,14 @@
+{
+  "name": "usmle-step-1-topics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline checklist of UWorld USMLE Step 1 topics. Open index.html directly.",
+  "scripts": {
+    "seed": "node scripts/parse-seed.js",
+    "build": "node scripts/build.js",
+    "test": "node --test",
+    "test:e2e": "node scripts/e2e.js",
+    "check": "node scripts/build.js --check && node --test && node scripts/e2e.js"
+  },
+  "license": "UNLICENSED"
+}

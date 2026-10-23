@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>USMLE Step 1 Topics</title>
+<style>
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --panel-2: #f0f2f5;
+  --sys-bg: #eef1f5;
+  --text: #1b1f24;
+  --muted: #646d78;
+  --border: #dde1e6;
+  --border-strong: #c4cad2;
+  --accent: #2563c9;
+  --accent-soft: #dce8fb;
+  --done: #2563c9;
+  --na: #c9ced5;
+  --warn: #c27803;
+  --danger: #c62828;
+  --flash: #ffe9a8;
+  --name-w: 420px;
+  --cell-w: 84px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111418;
+    --panel: #171b20;
+    --panel-2: #1e232a;
+    --sys-bg: #1f252d;
+    --text: #e3e7ec;
+    --muted: #8d97a3;
+    --border: #2a3139;
+    --border-strong: #3a434e;
+    --accent: #6ea1f2;
+    --accent-soft: #1f3354;
+    --done: #5b93ec;
+    --na: #3b434d;
+    --warn: #f0a630;
+    --danger: #ef6b6b;
+    --flash: #5a4a14;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.35 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+button, input, textarea { font: inherit; color: inherit; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+[hidden] { display: none !important; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  flex: none;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px 6px;
+  z-index: 20;
+}
+.tb-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.tb-row + .tb-row { margin-top: 6px; }
+.overall { display: flex; align-items: center; gap: 10px; min-width: 210px; }
+.overall-pct { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; min-width: 64px; }
+.overall-meta { display: flex; flex-direction: column; gap: 3px; min-width: 140px; }
+.bar { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; border: 1px solid var(--border); }
+.bar > i { display: block; height: 100%; width: 0; background: var(--done); }
+.bar.big { height: 8px; }
+.tb-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.export-age { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.export-age.nudge { color: var(--warn); font-weight: 600; }
+
+.btn {
+  border: 1px solid var(--border-strong); background: var(--panel); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer; white-space: nowrap;
+}
+.btn:hover { background: var(--panel-2); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.danger { color: var(--danger); border-color: var(--danger); }
+.btn.ghost { border-color: transparent; background: transparent; }
+.btn.ghost:hover { background: var(--panel-2); }
+.btn.nudge { border-color: var(--warn); color: var(--warn); font-weight: 600; }
+.icon-btn { padding: 4px 8px; font-size: 15px; line-height: 1; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.controls input[type=search] {
+  width: 300px; max-width: 100%; padding: 5px 9px;
+  border: 1px solid var(--border-strong); border-radius: 6px; background: var(--bg);
+}
+.toggle { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
+.save-status { margin-left: auto; }
+.save-status.error { color: var(--danger); font-weight: 600; }
+#btnQueue { display: none; }
+
+.banner {
+  margin-top: 6px; padding: 6px 10px; border-radius: 6px;
+  background: var(--accent-soft); display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.banner.error { background: color-mix(in srgb, var(--danger) 18%, var(--panel)); }
+
+/* ---------- Layout ---------- */
+.layout { flex: 1; min-height: 0; display: flex; }
+.grid-wrap { flex: 1; min-width: 0; overflow: auto; position: relative; scroll-padding: 34px 0 0 var(--name-w); }
+.queue {
+  flex: none; width: 300px; overflow: auto;
+  border-left: 1px solid var(--border); background: var(--panel); padding: 8px 10px 20px;
+}
+
+/* ---------- Grid ---------- */
+.grid { border-collapse: separate; border-spacing: 0; width: 100%; max-width: 900px; }
+.grid thead th:not(.col-name) { width: 1%; }
+.grid th, .grid td { padding: 0; border-bottom: 1px solid var(--border); background: var(--panel); }
+.grid thead th {
+  position: sticky; top: 0; z-index: 3;
+  background: var(--panel-2); font-weight: 600; font-size: 12px; color: var(--muted);
+  padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--border-strong);
+  width: var(--cell-w); min-width: var(--cell-w);
+}
+.grid .col-name {
+  position: sticky; left: 0; z-index: 2;
+  min-width: var(--name-w); max-width: 560px;
+  text-align: left; font-weight: normal; border-right: 1px solid var(--border);
+}
+.grid thead th.col-name { z-index: 4; padding-left: 12px; }
+
+tr.sys > * { background: var(--sys-bg); border-top: 1px solid var(--border-strong); }
+tr.sys .col-name { padding: 5px 6px 5px 4px; }
+.sys-line { display: flex; align-items: center; gap: 6px; }
+.caret {
+  border: 0; background: none; cursor: pointer; width: 20px; height: 20px; padding: 0;
+  color: var(--muted); border-radius: 4px; transition: transform .12s; flex: none;
+}
+.caret:hover { background: var(--panel-2); }
+tr.sys.collapsed .caret { transform: rotate(-90deg); }
+.sys-name { font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; cursor: pointer; }
+.sys-prog { display: flex; align-items: center; gap: 6px; margin: 3px 0 0 26px; }
+.sys-prog .bar { flex: 1; max-width: 170px; }
+.sys-prog .pct { font-variant-numeric: tabular-nums; font-size: 12px; font-weight: 600; min-width: 38px; }
+.sys-tally { font-size: 11px; color: var(--muted); margin: 2px 0 0 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.hcell {
+  width: 100%; height: 100%; min-height: 44px; border: 0; background: transparent; cursor: pointer;
+  font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted);
+}
+.hcell:hover { background: var(--accent-soft); }
+.hcell.full { color: var(--done); font-weight: 650; }
+
+tr.row .col-name { padding: 3px 6px 3px 30px; }
+.row-line { display: flex; align-items: center; gap: 4px; min-height: 24px; }
+.rname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rname-input { flex: 1; min-width: 0; padding: 1px 4px; border: 1px solid var(--accent); border-radius: 4px; background: var(--bg); }
+.note-preview { display: block; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tool {
+  border: 0; background: none; cursor: pointer; padding: 2px 4px; border-radius: 4px;
+  color: var(--muted); opacity: 0; font-size: 12px; line-height: 1; flex: none;
+}
+tr:hover .tool, tr:focus-within .tool, .tool.on { opacity: 1; }
+.tool:hover { background: var(--panel-2); color: var(--text); }
+.tool.on { color: var(--accent); }
+@media (hover: none) { .tool { opacity: .7; } }
+
+.cell {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 30px; border: 0; background: transparent; cursor: pointer; padding: 0;
+}
+.cell:hover { background: var(--panel-2); }
+.box {
+  width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border-strong);
+  display: flex; align-items: center; justify-content: center; background: var(--panel);
+}
+.s-done .box { background: var(--done); border-color: var(--done); }
+.s-done .box::after {
+  content: ""; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+.s-na .box { background: var(--na); border-color: var(--na); }
+.s-na .box::after { content: ""; width: 8px; height: 2px; background: var(--panel); border-radius: 1px; }
+tr.row.complete .rname { color: var(--muted); }
+
+tr.notes-row td { padding: 4px 8px 8px 30px; background: var(--panel); }
+tr.notes-row textarea {
+  width: min(100%, 720px); min-height: 52px; resize: vertical; display: block;
+  border: 1px solid var(--border-strong); border-radius: 6px; padding: 5px 8px; background: var(--bg);
+  position: sticky; left: 30px;
+}
+tr.flash > * { animation: flash 1.8s ease-out; }
+@keyframes flash { 0%, 30% { background: var(--flash); } }
+.empty { padding: 30px; text-align: center; }
+
+/* ---------- Queue ---------- */
+.queue-head { display: flex; align-items: baseline; justify-content: space-between; }
+.queue h2 { font-size: 14px; margin: 2px 0 8px; }
+.queue h3 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+  margin: 12px 0 4px; display: flex; justify-content: space-between;
+}
+.q-item {
+  display: flex; align-items: flex-start; gap: 4px; width: 100%;
+  padding: 4px 6px; border-radius: 6px; cursor: pointer;
+}
+.q-item:hover { background: var(--panel-2); }
+.q-main { flex: 1; min-width: 0; border: 0; background: none; text-align: left; padding: 0; cursor: pointer; }
+.q-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-sys { display: block; font-size: 11px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-stage { font-size: 10px; color: var(--accent); font-weight: 600; margin-left: 4px; }
+.q-pin { opacity: .35; }
+.q-item:hover .q-pin, .q-pin.on { opacity: 1; }
+.queue .more { margin-top: 10px; width: 100%; }
+
+/* ---------- Menus, dialog, toasts ---------- */
+.menu {
+  position: fixed; z-index: 50; min-width: 190px; padding: 4px;
+  background: var(--panel); border: 1px solid var(--border-strong); border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; }
+.menu button:hover, .menu button:focus-visible { background: var(--panel-2); }
+.menu .danger { color: var(--danger); }
+.menu hr { border: 0; border-top: 1px solid var(--border); margin: 4px 0; }
+
+dialog {
+  border: 1px solid var(--border-strong); border-radius: 10px; padding: 0;
+  background: var(--panel); color: var(--text); width: min(480px, calc(100vw - 24px));
+  box-shadow: 0 16px 48px rgba(0,0,0,.3);
+}
+dialog::backdrop { background: rgba(0,0,0,.35); }
+dialog form { padding: 16px 18px; }
+dialog h2 { margin: 0 0 10px; font-size: 16px; }
+dialog p, dialog ul { margin: 0 0 10px; }
+dialog ul { padding-left: 18px; }
+dialog .errors { max-height: 220px; overflow: auto; color: var(--danger); font-size: 12px; }
+dialog input[type=text] {
+  width: 100%; padding: 6px 9px; border: 1px solid var(--border-strong); border-radius: 6px;
+  background: var(--bg); margin-bottom: 10px;
+}
+dialog .actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 14px; }
+dialog kbd, .kbd {
+  font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; padding: 1px 5px;
+  border: 1px solid var(--border-strong); border-radius: 4px; background: var(--panel-2);
+}
+dialog table td { padding: 3px 10px 3px 0; }
+
+.toasts { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.toast {
+  background: var(--text); color: var(--bg); padding: 7px 12px; border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25); display: flex; gap: 10px; align-items: center; max-width: 90vw;
+}
+.toast button { background: none; border: 0; color: inherit; text-decoration: underline; cursor: pointer; font-weight: 600; }
+
+/* ---------- Narrow screens ---------- */
+@media (max-width: 1100px) {
+  :root { --name-w: 320px; }
+}
+@media (max-width: 860px) {
+  :root { --name-w: 250px; --cell-w: 64px; }
+  body { overflow: auto; display: block; }
+  .grid .col-name { max-width: var(--name-w); }
+  .rname { white-space: normal; overflow-wrap: anywhere; }
+  .grid thead th { padding: 6px 2px; font-size: 11px; }
+  .layout { flex-direction: column; }
+  .grid-wrap { flex: none; height: 72vh; }
+  .queue { width: auto; border-left: 0; border-top: 1px solid var(--border); overflow: visible; }
+  #btnQueue { display: inline-block; }
+  .overall { min-width: 0; }
+  .tb-actions { margin-left: 0; flex-wrap: wrap; }
+  .controls input[type=search] { width: 100%; }
+  .save-status { margin-left: 0; }
+  tr.row .col-name { padding-left: 12px; }
+  .sys-prog, .sys-tally { margin-left: 4px; }
+}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="tb-row">
+    <div class="overall">
+      <div class="overall-pct" id="overallPct">0%</div>
+      <div class="overall-meta">
+        <div class="bar big"><i id="overallBar"></i></div>
+        <div class="muted small" id="overallSub"></div>
+      </div>
+    </div>
+    <div class="tb-actions">
+      <span class="export-age" id="exportAge"></span>
+      <button class="btn" id="btnExport" title="Download a JSON backup">Export</button>
+      <button class="btn" id="btnImport" title="Import a JSON backup">Import</button>
+      <input type="file" id="fileImport" accept=".json,application/json" hidden>
+      <button class="btn icon-btn" id="btnUndo" title="Undo (Ctrl+Z)" aria-label="Undo">&#8630;</button>
+      <button class="btn icon-btn" id="btnRedo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">&#8631;</button>
+      <button class="btn icon-btn" id="btnMore" title="More actions" aria-label="More actions" aria-haspopup="menu">&#8942;</button>
+    </div>
+  </div>
+  <div class="tb-row controls">
+    <input type="search" id="search" placeholder="Search systems or subheadings  ( / )" autocomplete="off" aria-label="Search">
+    <label class="toggle"><input type="checkbox" id="hideCompleted"> Hide completed</label>
+    <button class="btn ghost" id="btnCollapseAll">Collapse all</button>
+    <button class="btn ghost" id="btnExpandAll">Expand all</button>
+    <button class="btn ghost" id="btnQueue" aria-controls="queue">Next up</button>
+    <span class="save-status muted small" id="saveStatus" aria-live="polite"></span>
+  </div>
+  <div class="banner" id="banner" hidden></div>
+</header>
+
+<main class="layout">
+  <div class="grid-wrap" id="gridWrap">
+    <table class="grid" id="grid" role="grid" aria-label="Pipeline progress"></table>
+    <p class="empty muted" id="emptyMsg" hidden>No subheadings match.</p>
+  </div>
+  <aside class="queue" id="queue" aria-label="Next up">
+    <div class="queue-head">
+      <h2>Next up</h2>
+      <span class="muted small" id="queueCount"></span>
+    </div>
+    <div id="queueList"></div>
+  </aside>
+</main>
+
+<div class="menu" id="moreMenu" role="menu" hidden>
+  <button role="menuitem" data-act="reseed">Merge subheadings from seed…</button>
+  <button role="menuitem" data-act="reset" class="danger">Reset to seed…</button>
+  <hr>
+  <button role="menuitem" data-act="help">Keyboard shortcuts</button>
+</div>
+<div class="menu" id="rowMenu" role="menu" hidden>
+  <button role="menuitem" data-act="rename">Rename</button>
+  <button role="menuitem" data-act="up">Move up</button>
+  <button role="menuitem" data-act="down">Move down</button>
+  <button role="menuitem" data-act="delete" class="danger">Delete…</button>
+</div>
+
+<dialog id="dialog"><form method="dialog" id="dialogForm"></form></dialog>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>window.TRACKER_SEED = {"source":"uworld_systems_subheadings.md","systems":[{"id":"allergy-and-immunology","name":"Allergy & Immunology","rows":[{"id":"allergy-and-immunology/anaphylaxis-and-allergic-reactions","name":"Anaphylaxis and allergic reactions"},{"id":"allergy-and-immunology/miscellaneous","name":"Miscellaneous"},{"id":"allergy-and-immunology/autoimmune-diseases","name":"Autoimmune diseases"},{"id":"allergy-and-immunology/transplant-medicine","name":"Transplant medicine"},{"id":"allergy-and-immunology/immune-deficiencies","name":"Immune deficiencies"},{"id":"allergy-and-immunology/principles-of-immunology","name":"Principles of immunology"}]},{"id":"dermatology","name":"Dermatology","rows":[{"id":"dermatology/skin-and-soft-tissue-infections","name":"Skin and soft tissue infections"},{"id":"dermatology/skin-tumors-and-tumor-like-lesions","name":"Skin tumors and tumor-like lesions"},{"id":"dermatology/normal-structure-and-function-of-skin","name":"Normal structure and function of skin"},{"id":"dermatology/inflammatory-dermatoses-and-bullous-diseases","name":"Inflammatory dermatoses and bullous diseases"},{"id":"dermatology/disorders-of-epidermal-appendages","name":"Disorders of epidermal appendages"},{"id":"dermatology/miscellaneous","name":"Miscellaneous"}]},{"id":"cardiovascular-system","name":"Cardiovascular System","rows":[{"id":"cardiovascular-system/aortic-and-peripheral-artery-diseases","name":"Aortic and peripheral artery diseases"},{"id":"cardiovascular-system/congenital-heart-disease","name":"Congenital heart disease"},{"id":"cardiovascular-system/coronary-heart-disease","name":"Coronary heart disease"},{"id":"cardiovascular-system/valvular-heart-diseases","name":"Valvular heart diseases"},{"id":"cardiovascular-system/myopericardial-diseases","name":"Myopericardial diseases"},{"id":"cardiovascular-system/cardiac-arrhythmias","name":"Cardiac arrhythmias"},{"id":"cardiovascular-system/cardiovascular-drugs","name":"Cardiovascular drugs"},{"id":"cardiovascular-system/miscellaneous","name":"Miscellaneous"},{"id":"cardiovascular-system/hypertension","name":"Hypertension"},{"id":"cardiovascular-system/heart-failure-and-shock","name":"Heart failure and shock"},{"id":"cardiovascular-system/normal-structure-and-function-of-the-cardiovascular-system","name":"Normal structure and function of the cardiovascular system"}]},{"id":"pulmonary-and-critical-care","name":"Pulmonary & Critical Care","rows":[{"id":"pulmonary-and-critical-care/pulmonary-infections","name":"Pulmonary infections"},{"id":"pulmonary-and-critical-care/obstructive-lung-disease","name":"Obstructive lung disease"},{"id":"pulmonary-and-critical-care/pulmonary-vascular-disease","name":"Pulmonary vascular disease"},{"id":"pulmonary-and-critical-care/miscellaneous","name":"Miscellaneous"},{"id":"pulmonary-and-critical-care/normal-pulmonary-structure-and-function","name":"Normal pulmonary structure and function"},{"id":"pulmonary-and-critical-care/critical-care-medicine","name":"Critical care medicine"},{"id":"pulmonary-and-critical-care/lung-cancer","name":"Lung cancer"},{"id":"pulmonary-and-critical-care/interstitial-lung-disease","name":"Interstitial lung disease"},{"id":"pulmonary-and-critical-care/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"pulmonary-and-critical-care/sleep-disorders","name":"Sleep disorders"}]},{"id":"gastrointestinal-and-nutrition","name":"Gastrointestinal & Nutrition","rows":[{"id":"gastrointestinal-and-nutrition/hepatic-disorders","name":"Hepatic disorders"},{"id":"gastrointestinal-and-nutrition/biliary-tract-disorders","name":"Biliary tract disorders"},{"id":"gastrointestinal-and-nutrition/miscellaneous","name":"Miscellaneous"},{"id":"gastrointestinal-and-nutrition/tumors-of-the-gi-tract","name":"Tumors of the GI tract"},{"id":"gastrointestinal-and-nutrition/intestinal-and-colorectal-disorders","name":"Intestinal and colorectal disorders"},{"id":"gastrointestinal-and-nutrition/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"gastrointestinal-and-nutrition/normal-structure-and-function-of-the-gi-tract","name":"Normal structure and function of the GI tract"},{"id":"gastrointestinal-and-nutrition/gastroesophageal-disorders","name":"Gastroesophageal disorders"},{"id":"gastrointestinal-and-nutrition/pancreatic-disorders","name":"Pancreatic disorders"},{"id":"gastrointestinal-and-nutrition/disorders-of-nutrition","name":"Disorders of nutrition"}]},{"id":"hematology-and-oncology","name":"Hematology & Oncology","rows":[{"id":"hematology-and-oncology/white-blood-cell-disorders","name":"White blood cell disorders"},{"id":"hematology-and-oncology/platelet-disorders","name":"Platelet disorders"},{"id":"hematology-and-oncology/red-blood-cell-disorders","name":"Red blood cell disorders"},{"id":"hematology-and-oncology/hemostasis-and-thrombosis","name":"Hemostasis and thrombosis"},{"id":"hematology-and-oncology/miscellaneous","name":"Miscellaneous"},{"id":"hematology-and-oncology/normal-hematologic-structure-and-function","name":"Normal hematologic structure and function"},{"id":"hematology-and-oncology/principles-of-oncology","name":"Principles of oncology"},{"id":"hematology-and-oncology/transfusion-medicine","name":"Transfusion medicine"},{"id":"hematology-and-oncology/plasma-cell-disorders","name":"Plasma cell disorders"}]},{"id":"renal-urinary-systems-and-electrolytes","name":"Renal, Urinary Systems & Electrolytes","rows":[{"id":"renal-urinary-systems-and-electrolytes/glomerular-diseases","name":"Glomerular diseases"},{"id":"renal-urinary-systems-and-electrolytes/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"renal-urinary-systems-and-electrolytes/cystic-kidney-diseases","name":"Cystic kidney diseases"},{"id":"renal-urinary-systems-and-electrolytes/neoplasms-of-the-kidneys-and-urinary-tract","name":"Neoplasms of the kidneys and urinary tract"},{"id":"renal-urinary-systems-and-electrolytes/diabetes-insipidus","name":"Diabetes insipidus"},{"id":"renal-urinary-systems-and-electrolytes/chronic-kidney-disease","name":"Chronic kidney disease"},{"id":"renal-urinary-systems-and-electrolytes/bone-metabolism","name":"Bone metabolism"},{"id":"renal-urinary-systems-and-electrolytes/fluid-electrolytes-and-acid-base","name":"Fluid, electrolytes, and acid-base"},{"id":"renal-urinary-systems-and-electrolytes/miscellaneous","name":"Miscellaneous"},{"id":"renal-urinary-systems-and-electrolytes/normal-structure-and-function-of-the-kidneys-and-urinary-system","name":"Normal structure and function of the kidneys and urinary system"},{"id":"renal-urinary-systems-and-electrolytes/acute-kidney-injury","name":"Acute kidney injury"},{"id":"renal-urinary-systems-and-electrolytes/nephrolithiasis-and-urinary-tract-obstruction","name":"Nephrolithiasis and urinary tract obstruction"},{"id":"renal-urinary-systems-and-electrolytes/urinary-incontinence","name":"Urinary incontinence"}]},{"id":"nervous-system","name":"Nervous System","rows":[{"id":"nervous-system/cerebrovascular-disease","name":"Cerebrovascular disease"},{"id":"nervous-system/hydrocephalus","name":"Hydrocephalus"},{"id":"nervous-system/neurodegenerative-disorders-and-dementias","name":"Neurodegenerative disorders and dementias"},{"id":"nervous-system/spinal-cord-disorders","name":"Spinal cord disorders"},{"id":"nervous-system/disorders-of-peripheral-nerves-and-muscles","name":"Disorders of peripheral nerves and muscles"},{"id":"nervous-system/cns-infections","name":"CNS infections"},{"id":"nervous-system/seizures-and-epilepsy","name":"Seizures and epilepsy"},{"id":"nervous-system/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"nervous-system/traumatic-brain-injuries","name":"Traumatic brain injuries"},{"id":"nervous-system/sleep-disorders","name":"Sleep disorders"},{"id":"nervous-system/headache","name":"Headache"},{"id":"nervous-system/normal-structure-and-function-of-the-nervous-system","name":"Normal structure and function of the nervous system"},{"id":"nervous-system/miscellaneous","name":"Miscellaneous"},{"id":"nervous-system/tumors-of-the-nervous-system","name":"Tumors of the nervous system"},{"id":"nervous-system/anesthesia","name":"Anesthesia"},{"id":"nervous-system/demyelinating-diseases","name":"Demyelinating diseases"}]},{"id":"rheumatology-orthopedics-and-sports","name":"Rheumatology/Orthopedics & Sports","rows":[{"id":"rheumatology-orthopedics-and-sports/arthritis-and-spondyloarthropathies","name":"Arthritis and spondyloarthropathies"},{"id":"rheumatology-orthopedics-and-sports/autoimmune-disorders-and-vasculitides","name":"Autoimmune disorders and vasculitides"},{"id":"rheumatology-orthopedics-and-sports/miscellaneous","name":"Miscellaneous"},{"id":"rheumatology-orthopedics-and-sports/bone-joint-injuries-and-infections","name":"Bone/joint injuries and infections"},{"id":"rheumatology-orthopedics-and-sports/spinal-disorders-and-back-pain","name":"Spinal disorders and back pain"},{"id":"rheumatology-orthopedics-and-sports/metabolic-bone-disorders","name":"Metabolic bone disorders"},{"id":"rheumatology-orthopedics-and-sports/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"rheumatology-orthopedics-and-sports/normal-structure-and-function-of-the-musculoskeletal-system","name":"Normal structure and function of the musculoskeletal system"},{"id":"rheumatology-orthopedics-and-sports/bone-tumors-and-tumor-like-lesions","name":"Bone tumors and tumor-like lesions"}]},{"id":"infectious-diseases","name":"Infectious Diseases","rows":[{"id":"infectious-diseases/viral-infections","name":"Viral infections"},{"id":"infectious-diseases/hiv-and-sexually-transmitted-infections","name":"HIV and sexually transmitted infections"},{"id":"infectious-diseases/parasitic-and-helminthic-infections","name":"Parasitic and helminthic infections"},{"id":"infectious-diseases/fungal-infections","name":"Fungal infections"},{"id":"infectious-diseases/bacterial-infections","name":"Bacterial infections"},{"id":"infectious-diseases/antimicrobial-drugs","name":"Antimicrobial drugs"},{"id":"infectious-diseases/infection-control","name":"Infection control"},{"id":"infectious-diseases/miscellaneous","name":"Miscellaneous"}]},{"id":"endocrine-diabetes-and-metabolism","name":"Endocrine, Diabetes & Metabolism","rows":[{"id":"endocrine-diabetes-and-metabolism/obesity-and-dyslipidemia","name":"Obesity and dyslipidemia"},{"id":"endocrine-diabetes-and-metabolism/hypothalamus-and-pituitary-disorders","name":"Hypothalamus and pituitary disorders"},{"id":"endocrine-diabetes-and-metabolism/reproductive-endocrinology","name":"Reproductive endocrinology"},{"id":"endocrine-diabetes-and-metabolism/endocrine-tumors","name":"Endocrine tumors"},{"id":"endocrine-diabetes-and-metabolism/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"endocrine-diabetes-and-metabolism/adrenal-disorders","name":"Adrenal disorders"},{"id":"endocrine-diabetes-and-metabolism/diabetes-mellitus","name":"Diabetes mellitus"},{"id":"endocrine-diabetes-and-metabolism/thyroid-disorders","name":"Thyroid disorders"},{"id":"endocrine-diabetes-and-metabolism/miscellaneous","name":"Miscellaneous"},{"id":"endocrine-diabetes-and-metabolism/normal-structure-and-function-of-endocrine-glands","name":"Normal structure and function of endocrine glands"}]},{"id":"female-reproductive-system-and-breast","name":"Female Reproductive System & Breast","rows":[{"id":"female-reproductive-system-and-breast/genitourinary-tract-infections","name":"Genitourinary tract infections"},{"id":"female-reproductive-system-and-breast/genital-tract-tumors-and-tumor-like-lesions","name":"Genital tract tumors and tumor-like lesions"},{"id":"female-reproductive-system-and-breast/normal-structure-and-function-of-the-female-reproductive-system-and-breast","name":"Normal structure and function of the female reproductive system and breast"},{"id":"female-reproductive-system-and-breast/congenital-and-developmental-anomalies","name":"Congenital and developmental anomalies"},{"id":"female-reproductive-system-and-breast/menstrual-disorders-and-contraception","name":"Menstrual disorders and contraception"},{"id":"female-reproductive-system-and-breast/breast-disorders","name":"Breast disorders"},{"id":"female-reproductive-system-and-breast/miscellaneous","name":"Miscellaneous"}]},{"id":"male-reproductive-system","name":"Male Reproductive System","rows":[{"id":"male-reproductive-system/normal-structure-and-function-of-the-male-reproductive-system","name":"Normal structure and function of the male reproductive system"},{"id":"male-reproductive-system/disorders-of-the-male-reproductive-system","name":"Disorders of the male reproductive system"}]},{"id":"pregnancy-childbirth-and-puerperium","name":"Pregnancy, Childbirth & Puerperium","rows":[{"id":"pregnancy-childbirth-and-puerperium/disorders-of-pregnancy-childbirth-and-puerperium","name":"Disorders of pregnancy, childbirth, and puerperium"},{"id":"pregnancy-childbirth-and-puerperium/normal-pregnancy-childbirth-and-puerperium","name":"Normal pregnancy, childbirth, and puerperium"}]},{"id":"biostatistics-and-epidemiology","name":"Biostatistics & Epidemiology","rows":[{"id":"biostatistics-and-epidemiology/probability-and-principles-of-testing","name":"Probability and principles of testing"},{"id":"biostatistics-and-epidemiology/study-design-and-interpretation","name":"Study design and interpretation"},{"id":"biostatistics-and-epidemiology/epidemiology-and-population-health","name":"Epidemiology and population health"},{"id":"biostatistics-and-epidemiology/measures-and-distribution-of-data","name":"Measures and distribution of data"},{"id":"biostatistics-and-epidemiology/miscellaneous","name":"Miscellaneous"}]},{"id":"ear-nose-and-throat-ent","name":"Ear, Nose & Throat (ENT)","rows":[{"id":"ear-nose-and-throat-ent/disorders-of-the-ear-nose-and-throat","name":"Disorders of the ear, nose, and throat"}]},{"id":"psychiatric-behavioral-and-substance-use-disorder","name":"Psychiatric/Behavioral & Substance Use Disorder","rows":[{"id":"psychiatric-behavioral-and-substance-use-disorder/psychotic-disorders","name":"Psychotic disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/anxiety-and-trauma-related-disorders","name":"Anxiety and trauma-related disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/substance-use-disorders","name":"Substance use disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/mood-disorders","name":"Mood disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/miscellaneous","name":"Miscellaneous"},{"id":"psychiatric-behavioral-and-substance-use-disorder/normal-behavior-and-development","name":"Normal behavior and development"},{"id":"psychiatric-behavioral-and-substance-use-disorder/eating-disorders","name":"Eating disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/personality-disorders","name":"Personality disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/neurodevelopmental-disorders","name":"Neurodevelopmental disorders"},{"id":"psychiatric-behavioral-and-substance-use-disorder/somatoform-disorders","name":"Somatoform disorders"}]},{"id":"poisoning-and-environmental-exposure","name":"Poisoning & Environmental Exposure","rows":[{"id":"poisoning-and-environmental-exposure/toxicology","name":"Toxicology"},{"id":"poisoning-and-environmental-exposure/environmental-exposure","name":"Environmental exposure"}]},{"id":"ophthalmology","name":"Ophthalmology","rows":[{"id":"ophthalmology/normal-structure-and-function-of-the-eye-and-associated-structures","name":"Normal structure and function of the eye and associated structures"},{"id":"ophthalmology/disorders-of-the-eye-and-associated-structures","name":"Disorders of the eye and associated structures"}]},{"id":"social-sciences-ethics-legal-professional","name":"Social Sciences (Ethics/Legal/Professional)","rows":[{"id":"social-sciences-ethics-legal-professional/healthcare-policy-and-economics","name":"Healthcare policy and economics"},{"id":"social-sciences-ethics-legal-professional/patient-safety","name":"Patient safety"},{"id":"social-sciences-ethics-legal-professional/miscellaneous","name":"Miscellaneous"},{"id":"social-sciences-ethics-legal-professional/communication-and-interpersonal-skills","name":"Communication and interpersonal skills"},{"id":"social-sciences-ethics-legal-professional/medical-ethics-and-jurisprudence","name":"Medical ethics and jurisprudence"},{"id":"social-sciences-ethics-legal-professional/system-based-practice-and-quality-improvement","name":"System based-practice and quality improvement"}]},{"id":"miscellaneous-multisystem","name":"Miscellaneous (Multisystem)","rows":[{"id":"miscellaneous-multisystem/miscellaneous","name":"Miscellaneous"}]},{"id":"biochemistry-general-principles","name":"Biochemistry (General Principles)","rows":[{"id":"biochemistry-general-principles/cell-and-molecular-biology","name":"Cell and molecular biology"},{"id":"biochemistry-general-principles/amino-acids-proteins-and-enzymes","name":"Amino acids, proteins, and enzymes"},{"id":"biochemistry-general-principles/bioenergetics-and-carbohydrate-metabolism","name":"Bioenergetics and carbohydrate metabolism"},{"id":"biochemistry-general-principles/lipid-metabolism","name":"Lipid metabolism"},{"id":"biochemistry-general-principles/miscellaneous","name":"Miscellaneous"}]},{"id":"genetics-general-principles","name":"Genetics (General Principles)","rows":[{"id":"genetics-general-principles/clinical-genetics","name":"Clinical genetics"},{"id":"genetics-general-principles/dna-structure-replication-and-repair","name":"DNA structure, replication, and repair"},{"id":"genetics-general-principles/rna-structure-synthesis-and-processing","name":"RNA structure, synthesis, and processing"},{"id":"genetics-general-principles/miscellaneous","name":"Miscellaneous"},{"id":"genetics-general-principles/gene-expression-and-regulation","name":"Gene expression and regulation"},{"id":"genetics-general-principles/protein-synthesis","name":"Protein synthesis"}]},{"id":"microbiology-general-principles","name":"Microbiology (General Principles)","rows":[{"id":"microbiology-general-principles/virology","name":"Virology"},{"id":"microbiology-general-principles/mycology","name":"Mycology"},{"id":"microbiology-general-principles/bacteriology","name":"Bacteriology"},{"id":"microbiology-general-principles/miscellaneous","name":"Miscellaneous"},{"id":"microbiology-general-principles/parasitology","name":"Parasitology"}]},{"id":"pathology-general-principles","name":"Pathology (General Principles)","rows":[{"id":"pathology-general-principles/cellular-pathology","name":"Cellular pathology"},{"id":"pathology-general-principles/neoplasia","name":"Neoplasia"},{"id":"pathology-general-principles/inflammation-and-repair","name":"Inflammation and repair"}]},{"id":"pharmacology-general-principles","name":"Pharmacology (General Principles)","rows":[{"id":"pharmacology-general-principles/drug-metabolism-and-toxicity","name":"Drug metabolism and toxicity"},{"id":"pharmacology-general-principles/pharmacokinetics","name":"Pharmacokinetics"},{"id":"pharmacology-general-principles/drug-receptors-and-pharmacodynamics","name":"Drug receptors and pharmacodynamics"},{"id":"pharmacology-general-principles/miscellaneous","name":"Miscellaneous"}]}]};</script>
+<script>
+/*
+ * Tracker core logic: pure functions, no DOM.
+ * Runs in the browser (window.TrackerCore) and in Node (require) for tests.
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.TrackerCore = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  const SCHEMA_VERSION = 2;
+  // One status column per subheading. The code works for any number of columns,
+  // so more can be added later (bump SCHEMA_VERSION and add a migration).
+  const STAGES = ['done'];
+  const STAGE_LABELS = { done: 'Done' };
+  const STATES = ['todo', 'done', 'na'];
+  // How "advanced" a cell is, used when merging: done beats N/A beats todo.
+  const RANK = { todo: 0, na: 1, done: 2 };
+
+  // Migrations from older schema versions: MIGRATIONS[n] turns version n into n + 1.
+  // They are defensive: anything malformed is passed through for validation to reject.
+  const V1_STAGES = ['draft', 'solve', 'pdf', 'merge', 'figures', 'print'];
+  const MIGRATIONS = {
+    // v1 had six pipeline columns. A row becomes done when every column was done or N/A
+    // (and at least one was done), N/A when all were N/A, otherwise to do.
+    1: (d) => {
+      const obj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+      const migrateRow = (r) => {
+        if (!obj(r) || !obj(r.stages)) return r;
+        const cells = V1_STAGES.map((k) => r.stages[k]);
+        if (!cells.every(obj)) return r;
+        const states = cells.map((c) => c.state);
+        const state = states.every((x) => x === 'na') ? 'na'
+          : states.every((x) => x === 'done' || x === 'na') ? 'done' : 'todo';
+        const doneAt = state === 'done'
+          ? cells.map((c) => c.doneAt).filter((x) => typeof x === 'string').sort().pop() || null
+          : null;
+        return { ...r, stages: { done: { state, doneAt } } };
+      };
+      const systems = Array.isArray(d.systems)
+        ? d.systems.map((s) => (obj(s) && Array.isArray(s.rows) ? { ...s, rows: s.rows.map(migrateRow) } : s))
+        : d.systems;
+      const stagesOk = Array.isArray(d.stages) && d.stages.join() === V1_STAGES.join();
+      return { ...d, schemaVersion: 2, stages: stagesOk ? STAGES.slice() : d.stages, systems };
+    },
+  };
+
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+
+  function slugify(s) {
+    const slug = String(s)
+      .toLowerCase()
+      .replace(/&/g, ' and ')
+      .normalize('NFKD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return slug || 'item';
+  }
+
+  function uniqueId(base, taken) {
+    let id = base;
+    let n = 2;
+    while (taken.has(id)) id = `${base}-${n++}`;
+    return id;
+  }
+
+  /* ---------- Markdown parsing ---------- */
+
+  // "## System" starts a system; "- Subheading" (or * / +) adds a row to it.
+  function parseMarkdown(md) {
+    const systems = [];
+    const warnings = [];
+    const sysIds = new Set();
+    let cur = null;
+    String(md).split(/\r?\n/).forEach((raw, i) => {
+      const line = raw.trim();
+      let m;
+      if ((m = /^##\s+(.+?)\s*#*$/.exec(line))) {
+        const name = m[1].trim();
+        const id = uniqueId(slugify(name), sysIds);
+        if (id !== slugify(name)) warnings.push(`line ${i + 1}: duplicate system "${name}" renamed to id ${id}`);
+        sysIds.add(id);
+        cur = { id, name, rows: [], ids: new Set() };
+        systems.push(cur);
+      } else if ((m = /^[-*+]\s+(.+)$/.exec(line))) {
+        const name = m[1].trim();
+        if (!cur) {
+          warnings.push(`line ${i + 1}: subheading "${name}" appears before any system; ignored`);
+          return;
+        }
+        const base = `${cur.id}/${slugify(name)}`;
+        if (cur.ids.has(base)) warnings.push(`line ${i + 1}: duplicate subheading "${name}" in ${cur.name}`);
+        const id = uniqueId(base, cur.ids);
+        cur.ids.add(id);
+        cur.rows.push({ id, name });
+      }
+    });
+    systems.forEach((s) => { if (!s.rows.length) warnings.push(`system "${s.name}" has no subheadings`); });
+    return { systems: systems.map(({ id, name, rows }) => ({ id, name, rows })), warnings };
+  }
+
+  /* ---------- State construction ---------- */
+
+  function emptyCells() {
+    const o = {};
+    STAGES.forEach((s) => { o[s] = { state: 'todo', doneAt: null }; });
+    return o;
+  }
+
+  function newRow(id, name) {
+    return { id, name, notes: '', pinned: false, stages: emptyCells() };
+  }
+
+  function stateFromSeed(seed, now) {
+    return {
+      schemaVersion: SCHEMA_VERSION,
+      updatedAt: (now || new Date()).toISOString(),
+      stages: STAGES.slice(),
+      deletedRowIds: [],
+      systems: seed.systems.map((s) => ({
+        id: s.id,
+        name: s.name,
+        collapsed: false,
+        rows: s.rows.map((r) => newRow(r.id, r.name)),
+      })),
+    };
+  }
+
+  function allRowIds(state) {
+    const ids = new Set();
+    state.systems.forEach((s) => s.rows.forEach((r) => ids.add(r.id)));
+    return ids;
+  }
+
+  function findRow(state, rowId) {
+    for (const sys of state.systems) {
+      const idx = sys.rows.findIndex((r) => r.id === rowId);
+      if (idx >= 0) return { sys, row: sys.rows[idx], index: idx };
+    }
+    return null;
+  }
+
+  /* ---------- Cell state ---------- */
+
+  function nextCellState(s) {
+    return s === 'todo' ? 'done' : s === 'done' ? 'na' : 'todo';
+  }
+
+  // Mutates the cell. doneAt is stamped on becoming done and cleared on leaving it.
+  function setCell(cell, state, nowIso) {
+    if (cell.state === state) return false;
+    cell.state = state;
+    cell.doneAt = state === 'done' ? nowIso || new Date().toISOString() : null;
+    return true;
+  }
+
+  /* ---------- Progress ---------- */
+
+  const pct = (done, applicable) => (applicable ? (done / applicable) * 100 : null);
+
+  // N/A cells are excluded entirely: they count as neither done nor applicable.
+  function tally(rows, stages) {
+    stages = stages || STAGES;
+    const perStage = {};
+    let done = 0;
+    let applicable = 0;
+    stages.forEach((st) => { perStage[st] = { done: 0, applicable: 0, na: 0 }; });
+    for (const r of rows) {
+      for (const st of stages) {
+        const c = r.stages[st];
+        const p = perStage[st];
+        if (c.state === 'na') { p.na++; continue; }
+        p.applicable++;
+        applicable++;
+        if (c.state === 'done') { p.done++; done++; }
+      }
+    }
+    stages.forEach((st) => { perStage[st].pct = pct(perStage[st].done, perStage[st].applicable); });
+    return { done, applicable, pct: pct(done, applicable), perStage };
+  }
+
+  function isRowComplete(row, stages) {
+    return (stages || STAGES).every((st) => row.stages[st].state !== 'todo');
+  }
+
+  function overallProgress(state) {
+    const rows = state.systems.flatMap((s) => s.rows);
+    const t = tally(rows, state.stages);
+    t.totalRows = rows.length;
+    t.completeRows = rows.filter((r) => isRowComplete(r, state.stages)).length;
+    return t;
+  }
+
+  /* ---------- Next up ---------- */
+
+  // First todo stage whose earlier stages are all done or N/A.
+  // (Any stage before the first todo is by definition done or N/A.)
+  function nextAction(row, stages) {
+    for (const st of stages || STAGES) {
+      if (row.stages[st].state === 'todo') return st;
+    }
+    return null;
+  }
+
+  // Flat queue: pinned items first (in system order), then grouped by stage,
+  // each group in system order.
+  function nextUpQueue(state) {
+    const items = [];
+    state.systems.forEach((sys, si) => {
+      sys.rows.forEach((row, ri) => {
+        const stage = nextAction(row, state.stages);
+        if (stage) {
+          items.push({
+            systemId: sys.id, systemName: sys.name, rowId: row.id, rowName: row.name,
+            stage, pinned: !!row.pinned, order: si * 10000 + ri,
+          });
+        }
+      });
+    });
+    const stageIdx = (s) => state.stages.indexOf(s);
+    items.sort((a, b) => {
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      if (!a.pinned && a.stage !== b.stage) return stageIdx(a.stage) - stageIdx(b.stage);
+      return a.order - b.order;
+    });
+    return items;
+  }
+
+  /* ---------- Import validation ---------- */
+
+  const isObj = (x) => x !== null && typeof x === 'object' && !Array.isArray(x);
+  const isNonEmptyStr = (x) => typeof x === 'string' && x.trim() !== '';
+  const isDateStr = (x) => typeof x === 'string' && !Number.isNaN(Date.parse(x));
+
+  // Returns { ok: true, data } with a normalized copy, or { ok: false, errors }.
+  // Never mutates its input.
+  function validateImport(input) {
+    const fail = (...errors) => ({ ok: false, errors });
+    if (!isObj(input)) return fail('File is not a JSON object.');
+    if (!('schemaVersion' in input)) return fail('Missing schemaVersion: this does not look like a tracker export.');
+    const v = input.schemaVersion;
+    if (typeof v !== 'number' || !Number.isInteger(v) || v < 0) return fail(`Invalid schemaVersion: ${JSON.stringify(v)}.`);
+    if (v > SCHEMA_VERSION) {
+      return fail(`File uses schemaVersion ${v}, which is newer than this app supports (${SCHEMA_VERSION}). Use a newer index.html.`);
+    }
+    let d = clone(input);
+    while (d.schemaVersion < SCHEMA_VERSION) {
+      const migrate = MIGRATIONS[d.schemaVersion];
+      if (!migrate) return fail(`File uses schemaVersion ${d.schemaVersion}, which is too old and has no migration path to ${SCHEMA_VERSION}.`);
+      d = migrate(d);
+    }
+
+    const errors = [];
+    const err = (m) => { if (errors.length < 25) errors.push(m); };
+
+    if (!Array.isArray(d.stages) || d.stages.length !== STAGES.length || d.stages.some((s, i) => s !== STAGES[i])) {
+      err(`stages must be exactly ${JSON.stringify(STAGES)}.`);
+    }
+    if ('updatedAt' in d && !isDateStr(d.updatedAt)) err('updatedAt is not a valid date string.');
+    if ('deletedRowIds' in d && (!Array.isArray(d.deletedRowIds) || d.deletedRowIds.some((x) => typeof x !== 'string'))) {
+      err('deletedRowIds must be an array of strings.');
+    }
+    if (!Array.isArray(d.systems)) {
+      err('systems must be an array.');
+      return fail(...errors);
+    }
+
+    const sysIds = new Set();
+    const rowIds = new Set();
+    const out = {
+      schemaVersion: SCHEMA_VERSION,
+      updatedAt: isDateStr(d.updatedAt) ? d.updatedAt : new Date().toISOString(),
+      stages: STAGES.slice(),
+      deletedRowIds: Array.isArray(d.deletedRowIds) ? d.deletedRowIds.filter((x) => typeof x === 'string') : [],
+      systems: [],
+    };
+
+    d.systems.forEach((s, si) => {
+      const where = `systems[${si}]`;
+      if (!isObj(s)) return err(`${where} is not an object.`);
+      if (!isNonEmptyStr(s.id)) return err(`${where}.id is missing.`);
+      if (sysIds.has(s.id)) err(`Duplicate system id "${s.id}".`);
+      sysIds.add(s.id);
+      if (typeof s.name !== 'string') err(`${where}.name must be a string.`);
+      if ('collapsed' in s && typeof s.collapsed !== 'boolean') err(`${where}.collapsed must be true/false.`);
+      if (!Array.isArray(s.rows)) return err(`${where}.rows must be an array.`);
+      const sysOut = { id: s.id, name: String(s.name), collapsed: !!s.collapsed, rows: [] };
+      s.rows.forEach((r, ri) => {
+        const rw = `${where}.rows[${ri}]`;
+        if (!isObj(r)) return err(`${rw} is not an object.`);
+        if (!isNonEmptyStr(r.id)) return err(`${rw}.id is missing.`);
+        if (rowIds.has(r.id)) err(`Duplicate row id "${r.id}".`);
+        rowIds.add(r.id);
+        if (typeof r.name !== 'string') err(`${rw}.name must be a string.`);
+        if ('notes' in r && typeof r.notes !== 'string') err(`${rw}.notes must be a string.`);
+        if ('pinned' in r && typeof r.pinned !== 'boolean') err(`${rw}.pinned must be true/false.`);
+        if (!isObj(r.stages)) return err(`${rw}.stages is missing.`);
+        const cells = {};
+        STAGES.forEach((st) => {
+          const c = r.stages[st];
+          if (!isObj(c)) return err(`${rw}.stages.${st} is missing.`);
+          if (!STATES.includes(c.state)) return err(`${rw}.stages.${st}.state must be one of ${STATES.join('/')}.`);
+          if (c.doneAt != null && !isDateStr(c.doneAt)) err(`${rw}.stages.${st}.doneAt is not a valid date.`);
+          cells[st] = { state: c.state, doneAt: c.state === 'done' && c.doneAt != null ? c.doneAt : null };
+        });
+        sysOut.rows.push({ id: r.id, name: String(r.name), notes: r.notes || '', pinned: !!r.pinned, stages: cells });
+      });
+      out.systems.push(sysOut);
+    });
+
+    if (errors.length) return fail(...errors);
+    return { ok: true, data: out };
+  }
+
+  /* ---------- Merge ---------- */
+
+  function mergeNotes(a, b) {
+    if (!b || a === b) return a;
+    if (!a) return b;
+    if (a.includes(b)) return a;
+    if (b.includes(a)) return b;
+    return `${a}\n---\n${b}`;
+  }
+
+  function mergeRow(cur, inc, report) {
+    STAGES.forEach((st) => {
+      const a = cur.stages[st];
+      const b = inc.stages[st];
+      if (RANK[b.state] > RANK[a.state]) {
+        cur.stages[st] = { state: b.state, doneAt: b.doneAt };
+        report.upgradedCells++;
+      } else if (a.state === 'done' && b.state === 'done' && b.doneAt && (!a.doneAt || b.doneAt < a.doneAt)) {
+        a.doneAt = b.doneAt; // keep the earliest completion time
+      }
+    });
+    const notes = mergeNotes(cur.notes, inc.notes);
+    if (notes !== cur.notes) { cur.notes = notes; report.notesMerged++; }
+    cur.pinned = !!(cur.pinned || inc.pinned);
+  }
+
+  // Merge `incoming` into a copy of `current`. Rows are matched by ID; the more
+  // advanced state wins per cell; new rows and systems are added near their
+  // neighbours in the incoming file; nothing in `current` is ever removed.
+  // opts.respectDeleted: skip incoming rows the user deliberately deleted
+  // (used when re-seeding from the markdown).
+  function mergeStates(current, incoming, opts) {
+    opts = opts || {};
+    const out = clone(current);
+    out.deletedRowIds = out.deletedRowIds || [];
+    const report = { addedSystems: 0, addedRows: 0, upgradedCells: 0, notesMerged: 0, skippedDeleted: 0 };
+    const tomb = new Set(out.deletedRowIds);
+    const rowIndex = new Map();
+    out.systems.forEach((s) => s.rows.forEach((r) => rowIndex.set(r.id, r)));
+
+    let prevSysId = null;
+    for (const inSys of incoming.systems) {
+      let sys = out.systems.find((s) => s.id === inSys.id);
+      if (!sys) {
+        const liveRows = inSys.rows.filter((r) => !(opts.respectDeleted && tomb.has(r.id)) && !rowIndex.has(r.id));
+        if (!liveRows.length && inSys.rows.length) {
+          inSys.rows.forEach((r) => { if (rowIndex.has(r.id)) mergeRow(rowIndex.get(r.id), r, report); });
+          continue;
+        }
+        sys = { id: inSys.id, name: inSys.name, collapsed: !!inSys.collapsed, rows: [] };
+        const at = prevSysId ? out.systems.findIndex((s) => s.id === prevSysId) + 1 : 0;
+        out.systems.splice(at, 0, sys);
+        report.addedSystems++;
+      }
+      prevSysId = sys.id;
+
+      let prevRowId = null;
+      for (const inRow of inSys.rows) {
+        const existing = rowIndex.get(inRow.id);
+        if (existing) {
+          mergeRow(existing, inRow, report);
+          if (sys.rows.includes(existing)) prevRowId = existing.id;
+          continue;
+        }
+        if (opts.respectDeleted && tomb.has(inRow.id)) { report.skippedDeleted++; continue; }
+        const r = clone(inRow);
+        const at = prevRowId ? sys.rows.findIndex((x) => x.id === prevRowId) + 1 : 0;
+        sys.rows.splice(at, 0, r);
+        rowIndex.set(r.id, r);
+        prevRowId = r.id;
+        report.addedRows++;
+        if (tomb.has(r.id)) out.deletedRowIds = out.deletedRowIds.filter((x) => x !== r.id);
+      }
+    }
+    out.updatedAt = new Date().toISOString();
+    return { state: out, report };
+  }
+
+  return {
+    SCHEMA_VERSION, STAGES, STAGE_LABELS, STATES, RANK, MIGRATIONS,
+    clone, slugify, uniqueId, parseMarkdown, emptyCells, newRow, stateFromSeed,
+    allRowIds, findRow, nextCellState, setCell, tally, isRowComplete, overallProgress,
+    nextAction, nextUpQueue, validateImport, mergeStates, mergeNotes,
+  };
+});
+
+</script>
+<script>
+/* Tracker UI. Depends on window.TrackerCore and window.TRACKER_SEED. */
+(function () {
+  'use strict';
+
+  const C = window.TrackerCore;
+  const SEED = window.TRACKER_SEED;
+  const STAGES = C.STAGES;
+  const L = C.STAGE_LABELS;
+
+  const KEY = 'uworldTracker.state.v1';
+  const PREV_KEY = KEY + '.prev';
+  const META_KEY = 'uworldTracker.meta.v1';
+  const CORRUPT_PREFIX = 'uworldTracker.corrupt.';
+  const UNDO_LIMIT = 50;
+  const QUEUE_DEFAULT = 10;
+  const NUDGE_DAYS = 7;
+  const NUDGE_CHANGES = 50;
+  const STATE_WORD = { todo: 'to do', done: 'done', na: 'N/A' };
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pad = (n) => String(n).padStart(2, '0');
+  const ymd = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const hms = (d = new Date()) => `${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+  const fmtDate = (iso) => new Date(iso).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const fmtPct = (p) => {
+    if (p == null) return '—';
+    const f = Math.floor(p * 10) / 10;
+    return (Number.isInteger(f) ? f : f.toFixed(1)) + '%';
+  };
+  const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+
+  const grid = $('grid');
+  const ui = {
+    search: '',
+    hideCompleted: false,
+    queueAll: false,
+    openNotes: new Set(),
+    renaming: null,
+    focus: null, // { rowId | sysId, stage }
+    restoreFocus: false,
+    seedBannerDismissed: false,
+  };
+  const undoStack = [];
+  const redoStack = [];
+  const problems = []; // unreadable saved data that was set aside
+  let storageOK = true;
+
+  /* ---------- Storage ---------- */
+
+  function storageGet(k) {
+    try { return localStorage.getItem(k); } catch (e) { storageOK = false; return null; }
+  }
+  function storageSet(k, v) { localStorage.setItem(k, v); } // may throw: callers handle it
+
+  function loadMeta() {
+    const base = { lastExportAt: null, changesSinceExport: 0 };
+    try { return Object.assign(base, JSON.parse(storageGet(META_KEY) || '{}')); } catch (e) { return base; }
+  }
+  function saveMeta() {
+    try { storageSet(META_KEY, JSON.stringify(meta)); } catch (e) { /* shown via save status */ }
+  }
+
+  // Unreadable data is copied aside (never deleted) so it can be downloaded later.
+  function quarantine(raw, reason) {
+    const key = CORRUPT_PREFIX + new Date().toISOString();
+    try { storageSet(key, raw); } catch (e) { /* storage full: still kept in memory below */ }
+    problems.push({ key, raw, reason });
+  }
+
+  function loadState() {
+    let recovered = false;
+    for (const k of [KEY, PREV_KEY]) {
+      const raw = storageGet(k);
+      if (raw == null) continue;
+      let parsed;
+      try { parsed = JSON.parse(raw); } catch (e) { quarantine(raw, 'not valid JSON'); recovered = true; continue; }
+      const v = C.validateImport(parsed);
+      if (v.ok) return { state: v.data, fresh: false, recovered };
+      quarantine(raw, v.errors[0]);
+      recovered = true;
+    }
+    return { state: C.stateFromSeed(SEED), fresh: true, recovered };
+  }
+
+  function save() {
+    const json = JSON.stringify(state);
+    try {
+      const old = localStorage.getItem(KEY);
+      if (old && old !== json) storageSet(PREV_KEY, old);
+      storageSet(KEY, json);
+      setSaveStatus(true);
+    } catch (e) {
+      setSaveStatus(false, e);
+    }
+  }
+
+  function setSaveStatus(ok, err) {
+    const el = $('saveStatus');
+    el.classList.toggle('error', !ok);
+    el.textContent = ok
+      ? `Saved ${new Date().toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}`
+      : `NOT SAVED: ${err && err.name === 'QuotaExceededError' ? 'storage full' : 'storage unavailable'}. Export now!`;
+  }
+
+  /* ---------- State changes ---------- */
+
+  // fn mutates the draft, returns a replacement state, or returns false to abort.
+  function commit(label, fn, opts = {}) {
+    const before = JSON.stringify(state);
+    const draft = JSON.parse(before);
+    const res = fn(draft);
+    if (res === false) return false;
+    const next = res && typeof res === 'object' ? res : draft;
+    if (JSON.stringify(next) === before) return false;
+    if (!opts.keepUpdatedAt) next.updatedAt = new Date().toISOString();
+    if (opts.undo !== false) {
+      undoStack.push({ label, snap: before });
+      if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+      redoStack.length = 0;
+    }
+    state = next;
+    if (opts.count !== false) bumpChanges();
+    save();
+    render();
+    return true;
+  }
+
+  function bumpChanges() {
+    meta.changesSinceExport = (meta.changesSinceExport || 0) + 1;
+    saveMeta();
+  }
+
+  function undo() {
+    flushNotes();
+    const u = undoStack.pop();
+    if (!u) return toast('Nothing to undo');
+    redoStack.push({ label: u.label, snap: JSON.stringify(state) });
+    state = JSON.parse(u.snap);
+    bumpChanges();
+    save();
+    render();
+    toast(`Undid: ${u.label}`);
+  }
+
+  function redo() {
+    const r = redoStack.pop();
+    if (!r) return toast('Nothing to redo');
+    undoStack.push({ label: r.label, snap: JSON.stringify(state) });
+    state = JSON.parse(r.snap);
+    bumpChanges();
+    save();
+    render();
+    toast(`Redid: ${r.label}`);
+  }
+
+  const sysById = (s, id) => s.systems.find((x) => x.id === id);
+
+  function cycleCell(rowId, stage) {
+    const hit = C.findRow(state, rowId);
+    if (!hit) return;
+    const to = C.nextCellState(hit.row.stages[stage].state);
+    commit(`${hit.row.name} → ${STATE_WORD[to]}`, (d) => {
+      C.setCell(C.findRow(d, rowId).row.stages[stage], to);
+    });
+  }
+
+  async function bulkSet(sysId, stage) {
+    const sys = sysById(state, sysId);
+    if (!sys.rows.length) return toast('This system has no subheadings yet');
+    const t = C.tally(sys.rows).perStage[stage];
+    const todo = sys.rows.length - t.done - t.na;
+    const r = await dialog({
+      title: `Mark every subheading in ${sys.name}?`,
+      html: `<p>This sets all ${plural(sys.rows.length, 'subheading')}
+        (now ${t.done} done, ${t.na} N/A, ${todo} to do). Ctrl+Z undoes it.</p>`,
+      buttons: [
+        { label: 'Cancel', value: 'cancel' },
+        { label: 'Mark to do', value: 'todo' },
+        { label: 'Mark N/A', value: 'na' },
+        { label: 'Mark done', value: 'done', kind: 'primary', isDefault: true },
+      ],
+    });
+    if (!C.STATES.includes(r.value)) return;
+    const label = `All of ${sys.name} → ${STATE_WORD[r.value]}`;
+    const now = new Date().toISOString();
+    if (commit(label, (d) => { sysById(d, sysId).rows.forEach((row) => C.setCell(row.stages[stage], r.value, now)); })) {
+      toast(label, true);
+    }
+  }
+
+  function setCollapsed(sysIds, collapsed) {
+    commit('Collapse', (d) => {
+      d.systems.forEach((s) => { if (sysIds.includes(s.id)) s.collapsed = collapsed; });
+    }, { undo: false, count: false });
+  }
+
+  function togglePin(rowId) {
+    const hit = C.findRow(state, rowId);
+    commit(hit.row.pinned ? `Unpin ${hit.row.name}` : `Pin ${hit.row.name}`, (d) => {
+      const row = C.findRow(d, rowId).row;
+      row.pinned = !row.pinned;
+    });
+  }
+
+  async function addRow(sysId) {
+    const sys = sysById(state, sysId);
+    const r = await dialog({
+      title: `Add subheading to ${sys.name}`,
+      input: { placeholder: 'Subheading name' },
+      buttons: [{ label: 'Cancel', value: 'cancel' }, { label: 'Add', value: 'add', kind: 'primary', isDefault: true }],
+    });
+    const name = (r.input || '').trim();
+    if (r.value !== 'add' || !name) return;
+    commit(`Add ${name}`, (d) => {
+      const id = C.uniqueId(`${sysId}/${C.slugify(name)}`, C.allRowIds(d));
+      sysById(d, sysId).rows.push(C.newRow(id, name));
+      sysById(d, sysId).collapsed = false;
+      d.deletedRowIds = (d.deletedRowIds || []).filter((x) => x !== id);
+    });
+  }
+
+  function finishRename(rowId, value, keep) {
+    if (ui.renaming !== rowId) return;
+    ui.renaming = null;
+    const name = (value || '').trim();
+    const hit = C.findRow(state, rowId);
+    ui.focus = { rowId, stage: STAGES[0] };
+    ui.restoreFocus = true;
+    if (!keep || !hit || !name || name === hit.row.name) return render();
+    // The ID stays the same so merges and re-seeds still match this row.
+    commit(`Rename ${hit.row.name} → ${name}`, (d) => { C.findRow(d, rowId).row.name = name; });
+  }
+
+  async function deleteRow(rowId) {
+    const hit = C.findRow(state, rowId);
+    const r = await dialog({
+      title: `Delete "${hit.row.name}"?`,
+      html: `<p>Removes this subheading and its progress from ${esc(hit.sys.name)}. Ctrl+Z undoes it.
+        Re-seeding from the markdown will not bring it back.</p>`,
+      buttons: [{ label: 'Cancel', value: 'cancel', isDefault: true }, { label: 'Delete', value: 'delete', kind: 'danger' }],
+    });
+    if (r.value !== 'delete') return;
+    if (commit(`Delete ${hit.row.name}`, (d) => {
+      const h = C.findRow(d, rowId);
+      h.sys.rows.splice(h.index, 1);
+      d.deletedRowIds = Array.from(new Set([...(d.deletedRowIds || []), rowId]));
+    })) toast(`Deleted ${hit.row.name}`, true);
+  }
+
+  function moveRow(rowId, delta) {
+    const hit = C.findRow(state, rowId);
+    const to = hit.index + delta;
+    if (to < 0 || to >= hit.sys.rows.length) return;
+    commit(`Move ${hit.row.name}`, (d) => {
+      const rows = C.findRow(d, rowId).sys.rows;
+      const [row] = rows.splice(hit.index, 1);
+      rows.splice(to, 0, row);
+    });
+  }
+
+  /* Notes edit in place without re-rendering, so typing is never interrupted.
+     One undo entry is recorded per editing session (focus → blur). */
+  let notesSession = null;
+  let notesTimer = null;
+  function onNotesInput(ta) {
+    const hit = C.findRow(state, ta.dataset.row);
+    if (!hit) return;
+    if (!notesSession) notesSession = { rowId: hit.row.id, snap: JSON.stringify(state), name: hit.row.name };
+    hit.row.notes = ta.value;
+    clearTimeout(notesTimer);
+    notesTimer = setTimeout(() => { state.updatedAt = new Date().toISOString(); save(); }, 300);
+  }
+  function flushNotes() {
+    clearTimeout(notesTimer);
+    if (!notesSession) return;
+    const s = notesSession;
+    notesSession = null;
+    if (JSON.stringify(state) === s.snap) return;
+    state.updatedAt = new Date().toISOString();
+    undoStack.push({ label: `Edit notes (${s.name})`, snap: s.snap });
+    if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+    redoStack.length = 0;
+    bumpChanges();
+    save();
+    renderTop();
+    const tool = grid.querySelector(`tr[data-row="${CSS.escape(s.rowId)}"] [data-act=notes]`);
+    if (tool) tool.classList.add('on');
+  }
+
+  /* ---------- Import / export ---------- */
+
+  function download(name, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+
+  function exportJSON() {
+    flushNotes();
+    download(`master-tracker-${ymd()}.json`, JSON.stringify(state, null, 2));
+    meta.lastExportAt = new Date().toISOString();
+    meta.changesSinceExport = 0;
+    saveMeta();
+    renderTop();
+    toast('Exported');
+  }
+
+  function downloadBackup(reason) {
+    flushNotes();
+    download(`master-tracker-backup-${ymd()}-${hms()}-${reason}.json`, JSON.stringify(state, null, 2));
+  }
+
+  async function importText(text, fileName) {
+    let parsed;
+    try { parsed = JSON.parse(text); } catch (e) {
+      return importError(fileName, [`The file is not valid JSON (${e.message}).`]);
+    }
+    const v = C.validateImport(parsed);
+    if (!v.ok) return importError(fileName, v.errors);
+    const inc = v.data;
+    const o = C.overallProgress(inc);
+    const rep = C.mergeStates(state, inc).report;
+    const r = await dialog({
+      title: `Import ${fileName}`,
+      html: `<p>The file is valid: ${plural(inc.systems.length, 'system')}, ${plural(o.totalRows, 'subheading')},
+        ${fmtPct(o.pct)} complete, last saved ${esc(fmtDate(inc.updatedAt))}.</p>
+        <ul>
+          <li><b>Merge</b> keeps everything you have, matches rows by ID and keeps the more advanced state of each cell.
+            For this file: ${plural(rep.upgradedCells, 'cell')} would advance, ${plural(rep.addedRows, 'row')} would be added.</li>
+          <li><b>Replace</b> swaps your current data for the file exactly.</li>
+        </ul>
+        <p class="muted small">A backup of your current data downloads first, and Ctrl+Z also undoes the import.</p>`,
+      buttons: [
+        { label: 'Cancel', value: 'cancel' },
+        { label: 'Replace', value: 'replace', kind: 'danger' },
+        { label: 'Merge', value: 'merge', kind: 'primary', isDefault: true },
+      ],
+    });
+    if (r.value !== 'replace' && r.value !== 'merge') return;
+    downloadBackup('before-import');
+    const changed = r.value === 'replace'
+      ? commit(`Import ${fileName} (replace)`, () => C.clone(inc), { keepUpdatedAt: true })
+      : commit(`Import ${fileName} (merge)`, (d) => C.mergeStates(d, inc).state);
+    toast(changed ? `Imported (${r.value})` : 'Nothing changed: the data is already identical', changed);
+  }
+
+  function importError(fileName, errors) {
+    return dialog({
+      title: 'Import cancelled',
+      html: `<p><b>${esc(fileName)}</b> was not imported. Your current data has not been changed.</p>
+        <ul class="errors">${errors.map((e) => `<li>${esc(e)}</li>`).join('')}</ul>`,
+      buttons: [{ label: 'OK', value: 'ok', kind: 'primary', isDefault: true }],
+    });
+  }
+
+  function seedState() { return C.stateFromSeed(SEED); }
+
+  function pendingSeedRows() {
+    return C.mergeStates(state, seedState(), { respectDeleted: true }).report;
+  }
+
+  async function reseed() {
+    const rep = pendingSeedRows();
+    if (!rep.addedRows) return toast('Your tracker already has every subheading from the seed');
+    const r = await dialog({
+      title: 'Merge subheadings from seed',
+      html: `<p>${plural(rep.addedRows, 'subheading')} from the built-in list ${rep.addedRows === 1 ? 'is' : 'are'} missing from your tracker
+        and will be added${rep.addedSystems ? ` (including ${plural(rep.addedSystems, 'new system')})` : ''}. Existing rows and progress stay as they are.
+        Rows you deleted stay deleted.</p><p class="muted small">A backup downloads first.</p>`,
+      buttons: [{ label: 'Cancel', value: 'cancel' }, { label: 'Merge', value: 'merge', kind: 'primary', isDefault: true }],
+    });
+    if (r.value !== 'merge') return;
+    downloadBackup('before-reseed');
+    if (commit('Merge from seed', (d) => C.mergeStates(d, seedState(), { respectDeleted: true }).state)) {
+      ui.seedBannerDismissed = true;
+      toast(`Added ${plural(rep.addedRows, 'subheading')}`, true);
+    }
+  }
+
+  async function resetToSeed() {
+    const r = await dialog({
+      title: 'Reset to seed?',
+      html: `<p>This erases all progress, notes and custom rows and starts again from the built-in subheading list.
+        A backup downloads first. Type <b>RESET</b> to confirm.</p>`,
+      input: { placeholder: 'RESET', mustEqual: 'RESET', confirmValue: 'reset' },
+      buttons: [{ label: 'Cancel', value: 'cancel' }, { label: 'Reset everything', value: 'reset', kind: 'danger', isDefault: true }],
+    });
+    if (r.value !== 'reset' || r.input !== 'RESET') return;
+    downloadBackup('before-reset');
+    if (commit('Reset to seed', () => seedState())) toast('Reset to seed', true);
+  }
+
+  /* ---------- Rendering ---------- */
+
+  function visibleModel() {
+    const q = ui.search.trim().toLowerCase();
+    const out = [];
+    for (const sys of state.systems) {
+      const sysMatch = !q || sys.name.toLowerCase().includes(q);
+      const rows = sys.rows.filter((r) =>
+        (sysMatch || r.name.toLowerCase().includes(q)) && !(ui.hideCompleted && C.isRowComplete(r)));
+      if (!rows.length && (q || (ui.hideCompleted && sys.rows.length))) continue;
+      out.push({ sys, rows, expanded: !sys.collapsed || !!q });
+    }
+    return out;
+  }
+
+  function cellHtml(row, st) {
+    const c = row.stages[st];
+    let title = `${L[st]}: ${STATE_WORD[c.state]}`;
+    if (c.doneAt) title += ` (${fmtDate(c.doneAt)})`;
+    return `<td><button class="cell s-${c.state}" data-stage="${st}" tabindex="-1" title="${esc(title)}"
+      aria-label="${esc(`${row.name}, ${title}`)}"><span class="box"></span></button></td>`;
+  }
+
+  function rowHtml(sys, row) {
+    const open = ui.openNotes.has(row.id);
+    const nameHtml = ui.renaming === row.id
+      ? `<input class="rname-input" value="${esc(row.name)}" aria-label="Rename subheading">`
+      : `<span class="rname" title="${esc(row.name)} (double-click to rename)">${esc(row.name)}</span>`;
+    const preview = row.notes && !open ? `<span class="note-preview" title="${esc(row.notes)}">${esc(row.notes.split('\n')[0])}</span>` : '';
+    let html = `<tr class="row${C.isRowComplete(row) ? ' complete' : ''}" data-row="${esc(row.id)}" data-sys="${esc(sys.id)}" data-nav>
+      <th class="col-name" scope="row"><div class="row-line">${nameHtml}
+        <button class="tool${row.notes || open ? ' on' : ''}" data-act="notes" title="Notes" aria-expanded="${open}">&#9998;</button>
+        <button class="tool${row.pinned ? ' on' : ''}" data-act="pin" title="${row.pinned ? 'Unpin' : 'Pin to top of Next up'}" aria-pressed="${!!row.pinned}">&#9733;</button>
+        <button class="tool" data-act="menu" title="Rename, move, delete" aria-haspopup="menu">&#8943;</button>
+      </div>${preview}</th>${STAGES.map((st) => cellHtml(row, st)).join('')}</tr>`;
+    if (open) {
+      html += `<tr class="notes-row"><td colspan="${STAGES.length + 1}"><textarea data-row="${esc(row.id)}"
+        placeholder="Notes, e.g. merge with renal acid-base" aria-label="Notes for ${esc(row.name)}">${esc(row.notes)}</textarea></td></tr>`;
+    }
+    return html;
+  }
+
+  function sysHtml({ sys, rows, expanded }) {
+    const t = C.tally(sys.rows);
+    const tallyText = STAGES.map((st) => `${L[st]} ${t.perStage[st].done}/${t.perStage[st].applicable}`).join(' · ');
+    let html = `<tbody><tr class="sys${expanded ? '' : ' collapsed'}" data-sys="${esc(sys.id)}" data-nav>
+      <th class="col-name" scope="rowgroup" title="${esc(tallyText)}">
+        <div class="sys-line">
+          <button class="caret" data-act="toggle" aria-expanded="${expanded}" aria-label="${expanded ? 'Collapse' : 'Expand'} ${esc(sys.name)}">&#9662;</button>
+          <span class="sys-name" data-act="toggle" title="${esc(sys.name)}">${esc(sys.name)}</span>
+          <span class="muted small">${sys.rows.length}</span>
+          <button class="tool" data-act="add" title="Add subheading">+</button>
+        </div>
+        <div class="sys-prog"><div class="bar"><i style="width:${t.pct || 0}%"></i></div><span class="pct">${fmtPct(t.pct)}</span></div>
+      </th>`;
+    html += STAGES.map((st) => {
+      const p = t.perStage[st];
+      const full = p.applicable && p.done === p.applicable;
+      return `<td><button class="hcell${full ? ' full' : ''}" data-stage="${st}" tabindex="-1"
+        title="${p.done}/${p.applicable} done${p.na ? `, ${p.na} N/A` : ''}. Click to set every subheading."
+        aria-label="${esc(sys.name)}: ${p.done} of ${p.applicable} done. Set all.">${p.applicable ? `${p.done}/${p.applicable}` : '—'}</button></td>`;
+    }).join('');
+    html += '</tr>';
+    if (expanded) html += rows.map((r) => rowHtml(sys, r)).join('');
+    return html + '</tbody>';
+  }
+
+  function render() {
+    renderTop();
+    renderGrid();
+    renderQueue();
+    renderBanner();
+  }
+
+  function renderGrid() {
+    const model = visibleModel();
+    grid.innerHTML = `<thead><tr><th class="col-name" scope="col">Subheading</th>${STAGES.map((s) => `<th scope="col">${L[s]}</th>`).join('')}</tr></thead>`
+      + model.map(sysHtml).join('');
+    $('emptyMsg').hidden = model.length > 0;
+
+    // Roving tabindex: exactly one grid cell is in the tab order.
+    let target = ui.focus && findCellButton(ui.focus);
+    if (!target) target = grid.querySelector('[data-stage]');
+    if (target) target.tabIndex = 0;
+    if (ui.restoreFocus && target) target.focus({ preventScroll: false });
+    ui.restoreFocus = false;
+
+    const input = grid.querySelector('.rname-input');
+    if (input) { input.focus(); input.select(); }
+  }
+
+  function findCellButton(f) {
+    const tr = f.rowId
+      ? grid.querySelector(`tr[data-row="${CSS.escape(f.rowId)}"]`)
+      : grid.querySelector(`tr.sys[data-sys="${CSS.escape(f.sysId)}"]`);
+    return tr && tr.querySelector(`[data-stage="${f.stage}"]`);
+  }
+
+  function renderTop() {
+    const o = C.overallProgress(state);
+    $('overallPct').textContent = fmtPct(o.pct);
+    $('overallBar').style.width = `${o.pct || 0}%`;
+    const na = o.totalRows - o.applicable;
+    $('overallSub').innerHTML = `<b>${o.done}</b>/${o.applicable} subheadings done${na ? ` · ${na} N/A` : ''}`;
+
+    const changes = meta.changesSinceExport || 0;
+    const days = meta.lastExportAt ? Math.floor((Date.now() - Date.parse(meta.lastExportAt)) / 864e5) : null;
+    let text = days == null ? 'Never exported' : days <= 0 ? 'Last exported: today' : `Last exported: ${plural(days, 'day')} ago`;
+    if (changes) text += ` · ${plural(changes, 'change')} since`;
+    const nudge = (days == null && changes > 0) || days > NUDGE_DAYS || changes > NUDGE_CHANGES;
+    $('exportAge').textContent = text;
+    $('exportAge').classList.toggle('nudge', nudge);
+    $('btnExport').classList.toggle('nudge', nudge);
+    $('btnExport').textContent = nudge ? 'Export (backup due)' : 'Export';
+
+    $('btnUndo').disabled = !undoStack.length;
+    $('btnUndo').title = undoStack.length ? `Undo: ${undoStack[undoStack.length - 1].label} (Ctrl+Z)` : 'Nothing to undo';
+    $('btnRedo').disabled = !redoStack.length;
+    $('btnRedo').title = redoStack.length ? `Redo: ${redoStack[redoStack.length - 1].label} (Ctrl+Shift+Z)` : 'Nothing to redo';
+  }
+
+  function renderQueue() {
+    const items = C.nextUpQueue(state);
+    $('queueCount').textContent = items.length ? `${items.length} open` : '';
+    if (!items.length) {
+      $('queueList').innerHTML = '<p class="muted">Nothing left to do. Every subheading is done.</p>';
+      return;
+    }
+    const shown = ui.queueAll ? items : items.slice(0, QUEUE_DEFAULT);
+    const groups = [];
+    const totals = {};
+    items.forEach((it) => { const g = it.pinned ? 'pinned' : it.stage; totals[g] = (totals[g] || 0) + 1; });
+    shown.forEach((it) => {
+      const g = it.pinned ? 'pinned' : it.stage;
+      if (!groups.length || groups[groups.length - 1].key !== g) groups.push({ key: g, items: [] });
+      groups[groups.length - 1].items.push(it);
+    });
+    let html = groups.map((g) => `<h3><span>${g.key === 'pinned' ? 'Pinned' : STAGES.length > 1 ? `Next: ${L[g.key]}` : 'To do'}</span><span>${totals[g.key]}</span></h3>`
+      + g.items.map((it) => `<div class="q-item" data-row="${esc(it.rowId)}">
+          <button class="q-main" data-act="goto" title="Go to row">
+            <span class="q-name">${esc(it.rowName)}${it.pinned && STAGES.length > 1 ? `<span class="q-stage">${L[it.stage]}</span>` : ''}</span>
+            <span class="q-sys">${esc(it.systemName)}</span>
+          </button>
+          <button class="tool q-pin${it.pinned ? ' on' : ''}" data-act="pin" title="${it.pinned ? 'Unpin' : 'Pin to top'}" aria-pressed="${it.pinned}">&#9733;</button>
+        </div>`).join('')).join('');
+    if (items.length > QUEUE_DEFAULT) {
+      html += `<button class="btn more" data-act="all">${ui.queueAll ? `Show first ${QUEUE_DEFAULT}` : `Show all (${items.length})`}</button>`;
+    }
+    $('queueList').innerHTML = html;
+  }
+
+  function renderBanner() {
+    const b = $('banner');
+    const parts = [];
+    let error = false;
+    if (!storageOK) {
+      error = true;
+      parts.push('<span><b>Browser storage is unavailable.</b> Changes will not survive a refresh. Export often.</span>');
+    }
+    problems.forEach((p, i) => {
+      error = true;
+      parts.push(`<span>Some saved data could not be read (${esc(p.reason)}). It was set aside, not deleted.</span>
+        <button class="btn" data-act="dl-problem" data-i="${i}">Download it</button>`);
+    });
+    if (!ui.seedBannerDismissed && !isFresh) {
+      const rep = pendingSeedRows();
+      if (rep.addedRows) {
+        parts.push(`<span>The built-in subheading list has ${plural(rep.addedRows, 'subheading')} that ${rep.addedRows === 1 ? 'is' : 'are'} not in your tracker.</span>
+          <button class="btn" data-act="reseed">Review and merge</button><button class="btn ghost" data-act="dismiss-seed">Dismiss</button>`);
+      }
+    }
+    b.hidden = !parts.length;
+    b.classList.toggle('error', error);
+    b.innerHTML = parts.join('');
+  }
+
+  /* ---------- Navigation ---------- */
+
+  function focusButton(btn) {
+    const old = grid.querySelector('[data-stage][tabindex="0"]');
+    if (old && old !== btn) old.tabIndex = -1;
+    btn.tabIndex = 0;
+    ui.focus = focusKey(btn);
+    btn.focus();
+  }
+
+  function focusKey(btn) {
+    const tr = btn.closest('tr');
+    return tr.dataset.row ? { rowId: tr.dataset.row, stage: btn.dataset.stage } : { sysId: tr.dataset.sys, stage: btn.dataset.stage };
+  }
+
+  function gotoRow(rowId) {
+    const hit = C.findRow(state, rowId);
+    if (!hit) return;
+    const visible = () => grid.querySelector(`tr[data-row="${CSS.escape(rowId)}"]`);
+    if (hit.sys.collapsed) { hit.sys.collapsed = false; save(); }
+    renderGrid();
+    if (!visible()) {
+      ui.search = '';
+      $('search').value = '';
+      ui.hideCompleted = false;
+      $('hideCompleted').checked = false;
+      renderGrid();
+    }
+    const tr = visible();
+    if (!tr) return;
+    tr.scrollIntoView({ block: 'center' });
+    tr.classList.remove('flash');
+    void tr.offsetWidth;
+    tr.classList.add('flash');
+    const stage = C.nextAction(hit.row) || STAGES[0];
+    focusButton(tr.querySelector(`[data-stage="${stage}"]`));
+  }
+
+  /* ---------- Menus, dialogs, toasts ---------- */
+
+  function openMenu(menu, anchor, data) {
+    closeMenus();
+    Object.assign(menu.dataset, data || {});
+    menu.hidden = false;
+    const r = anchor.getBoundingClientRect();
+    const w = menu.offsetWidth;
+    const h = menu.offsetHeight;
+    menu.style.left = `${Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8))}px`;
+    menu.style.top = `${r.bottom + h + 8 > window.innerHeight ? Math.max(8, r.top - h - 4) : r.bottom + 4}px`;
+    menu.querySelector('button').focus();
+    menu._anchor = anchor;
+  }
+  function closeMenus() {
+    document.querySelectorAll('.menu').forEach((m) => { m.hidden = true; });
+  }
+
+  function dialog({ title, html, buttons, input }) {
+    return new Promise((resolve) => {
+      const dlg = $('dialog');
+      const form = $('dialogForm');
+      form.innerHTML = `<h2>${esc(title)}</h2>${html || ''}
+        ${input ? `<input type="text" name="v" autocomplete="off" spellcheck="false" placeholder="${esc(input.placeholder || '')}">` : ''}
+        <div class="actions">${buttons.map((b) => `<button class="btn ${b.kind || ''}" value="${esc(b.value)}"${b.isDefault ? ' data-default' : ''}>${esc(b.label)}</button>`).join('')}</div>`;
+      const inp = form.querySelector('input');
+      const def = form.querySelector('[data-default]');
+      if (inp && input.mustEqual) {
+        const btn = form.querySelector(`button[value="${input.confirmValue}"]`);
+        btn.disabled = true;
+        inp.addEventListener('input', () => { btn.disabled = inp.value !== input.mustEqual; });
+      }
+      if (inp) {
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); if (def && !def.disabled) def.click(); }
+        });
+      }
+      dlg.returnValue = '';
+      dlg.onclose = () => { resolve({ value: dlg.returnValue, input: inp ? inp.value : null }); };
+      dlg.showModal();
+      (inp || def || form.querySelector('button')).focus();
+    });
+  }
+
+  function toast(msg, withUndo) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = `<span>${esc(msg)}</span>${withUndo ? '<button>Undo</button>' : ''}`;
+    if (withUndo) el.querySelector('button').onclick = () => { el.remove(); undo(); };
+    const box = $('toasts');
+    while (box.children.length >= 3) box.firstChild.remove();
+    box.appendChild(el);
+    setTimeout(() => el.remove(), withUndo ? 6000 : 2500);
+  }
+
+  function showHelp() {
+    const keys = [
+      ['↑ ↓', 'Move between rows'],
+      ['Space / Enter', 'Cycle: to do → done → N/A (on a system row: set all)'],
+      ['/', 'Focus search'],
+      ['Esc', 'Clear search / close menus'],
+      ['Ctrl+Z', 'Undo (last 50 actions)'],
+      ['Ctrl+Shift+Z / Ctrl+Y', 'Redo'],
+      ['Double-click a name', 'Rename it'],
+    ];
+    dialog({
+      title: 'Keyboard shortcuts',
+      html: `<table>${keys.map(([k, d]) => `<tr><td><kbd>${esc(k)}</kbd></td><td>${esc(d)}</td></tr>`).join('')}</table>
+`,
+      buttons: [{ label: 'Close', value: 'ok', kind: 'primary', isDefault: true }],
+    });
+  }
+
+  /* ---------- Events ---------- */
+
+  grid.addEventListener('click', (e) => {
+    const el = e.target.closest('button, [data-act]');
+    if (!el || el.tagName === 'INPUT') return;
+    const tr = el.closest('tr');
+    if (!tr) return;
+    const rowId = tr.dataset.row;
+    const sysId = tr.dataset.sys;
+    if (el.classList.contains('cell')) {
+      ui.focus = focusKey(el);
+      ui.restoreFocus = true;
+      return cycleCell(rowId, el.dataset.stage);
+    }
+    if (el.classList.contains('hcell')) {
+      ui.focus = focusKey(el);
+      ui.restoreFocus = true;
+      return bulkSet(sysId, el.dataset.stage).then(() => { if (ui.restoreFocus) renderGrid(); });
+    }
+    switch (el.dataset.act) {
+      case 'toggle': return setCollapsed([sysId], !sysById(state, sysId).collapsed);
+      case 'add': return addRow(sysId);
+      case 'pin': return togglePin(rowId);
+      case 'notes':
+        flushNotes();
+        if (ui.openNotes.has(rowId)) ui.openNotes.delete(rowId);
+        else ui.openNotes.add(rowId);
+        renderGrid();
+        if (ui.openNotes.has(rowId)) {
+          const ta = grid.querySelector(`textarea[data-row="${CSS.escape(rowId)}"]`);
+          ta.focus();
+          ta.setSelectionRange(ta.value.length, ta.value.length);
+        }
+        return;
+      case 'menu': return openMenu($('rowMenu'), el, { row: rowId });
+      default:
+    }
+  });
+
+  grid.addEventListener('dblclick', (e) => {
+    const name = e.target.closest('.rname');
+    if (!name) return;
+    ui.renaming = name.closest('tr').dataset.row;
+    renderGrid();
+  });
+
+  grid.addEventListener('keydown', (e) => {
+    const input = e.target.closest('.rname-input');
+    if (input) {
+      const rowId = input.closest('tr').dataset.row;
+      if (e.key === 'Enter') { e.preventDefault(); finishRename(rowId, input.value, true); }
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); finishRename(rowId, input.value, false); }
+      return;
+    }
+    const btn = e.target.closest('[data-stage]');
+    if (!btn) return;
+    const tr = btn.closest('tr');
+    const col = STAGES.indexOf(btn.dataset.stage);
+    const inRow = (i) => tr.querySelectorAll('[data-stage]')[i];
+    let target = null;
+    switch (e.key) {
+      case 'ArrowLeft': target = inRow(Math.max(0, col - 1)); break;
+      case 'ArrowRight': target = inRow(Math.min(STAGES.length - 1, col + 1)); break;
+      case 'Home': target = inRow(0); break;
+      case 'End': target = inRow(STAGES.length - 1); break;
+      case 'ArrowUp':
+      case 'ArrowDown': {
+        const rows = Array.from(grid.querySelectorAll('tr[data-nav]'));
+        const next = rows[rows.indexOf(tr) + (e.key === 'ArrowUp' ? -1 : 1)];
+        target = next ? next.querySelectorAll('[data-stage]')[col] : btn;
+        break;
+      }
+      default: return; // Space / Enter fall through to the button's native click.
+    }
+    e.preventDefault();
+    if (target) focusButton(target);
+  });
+
+  grid.addEventListener('focusout', (e) => {
+    if (e.target.classList.contains('rname-input')) {
+      const input = e.target;
+      finishRename(input.closest('tr').dataset.row, input.value, true);
+    } else if (e.target.tagName === 'TEXTAREA') {
+      flushNotes();
+    }
+  });
+  grid.addEventListener('input', (e) => { if (e.target.tagName === 'TEXTAREA') onNotesInput(e.target); });
+  grid.addEventListener('focusin', (e) => {
+    if (e.target.matches('[data-stage]')) ui.focus = focusKey(e.target);
+  });
+
+  $('rowMenu').addEventListener('click', (e) => {
+    const act = e.target.closest('button') && e.target.closest('button').dataset.act;
+    const rowId = $('rowMenu').dataset.row;
+    if (!act) return;
+    closeMenus();
+    if (act === 'rename') { ui.renaming = rowId; renderGrid(); }
+    if (act === 'delete') deleteRow(rowId);
+    if (act === 'up') moveRow(rowId, -1);
+    if (act === 'down') moveRow(rowId, 1);
+  });
+  $('moreMenu').addEventListener('click', (e) => {
+    const act = e.target.closest('button') && e.target.closest('button').dataset.act;
+    if (!act) return;
+    closeMenus();
+    if (act === 'reseed') reseed();
+    if (act === 'reset') resetToSeed();
+    if (act === 'help') showHelp();
+  });
+  $('btnMore').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!$('moreMenu').hidden) return closeMenus();
+    openMenu($('moreMenu'), $('btnMore'));
+  });
+  document.addEventListener('mousedown', (e) => {
+    if (!e.target.closest('.menu') && !e.target.closest('[data-act=menu]') && e.target !== $('btnMore')) closeMenus();
+  });
+  $('gridWrap').addEventListener('scroll', closeMenus, { passive: true });
+
+  $('queueList').addEventListener('click', (e) => {
+    const el = e.target.closest('[data-act]');
+    if (!el) return;
+    if (el.dataset.act === 'all') { ui.queueAll = !ui.queueAll; return renderQueue(); }
+    const rowId = el.closest('.q-item').dataset.row;
+    if (el.dataset.act === 'pin') return togglePin(rowId);
+    if (el.dataset.act === 'goto') return gotoRow(rowId);
+  });
+
+  $('banner').addEventListener('click', (e) => {
+    const el = e.target.closest('[data-act]');
+    if (!el) return;
+    if (el.dataset.act === 'reseed') reseed();
+    if (el.dataset.act === 'dismiss-seed') { ui.seedBannerDismissed = true; renderBanner(); }
+    if (el.dataset.act === 'dl-problem') {
+      const p = problems[Number(el.dataset.i)];
+      download(`master-tracker-unreadable-${ymd()}-${hms()}.json`, p.raw);
+    }
+  });
+
+  let searchTimer = null;
+  $('search').addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { ui.search = e.target.value; renderGrid(); }, 80);
+  });
+  $('search').addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { e.target.value = ''; ui.search = ''; renderGrid(); e.target.blur(); }
+    if (e.key === 'Enter' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      ui.search = e.target.value;
+      renderGrid();
+      const first = grid.querySelector('tr.row [data-stage]') || grid.querySelector('[data-stage]');
+      if (first) focusButton(first);
+    }
+  });
+  $('hideCompleted').addEventListener('change', (e) => { ui.hideCompleted = e.target.checked; renderGrid(); });
+  $('btnCollapseAll').addEventListener('click', () => setCollapsed(state.systems.map((s) => s.id), true));
+  $('btnExpandAll').addEventListener('click', () => setCollapsed(state.systems.map((s) => s.id), false));
+  $('btnQueue').addEventListener('click', () => $('queue').scrollIntoView({ behavior: 'smooth' }));
+  $('btnExport').addEventListener('click', exportJSON);
+  $('btnImport').addEventListener('click', () => $('fileImport').click());
+  $('fileImport').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    let text;
+    try { text = await file.text(); } catch (err) { return importError(file.name, ['Could not read the file.']); }
+    importText(text, file.name);
+  });
+  $('btnUndo').addEventListener('click', undo);
+  $('btnRedo').addEventListener('click', redo);
+
+  document.addEventListener('keydown', (e) => {
+    if ($('dialog').open) return;
+    const t = e.target;
+    const typing = t.matches('textarea, input:not([type=checkbox]):not([type=file]), [contenteditable]');
+    const mod = (e.ctrlKey || e.metaKey) && !e.altKey;
+    if (e.key === '/' && !typing && !mod) {
+      e.preventDefault();
+      $('search').focus();
+      $('search').select();
+    } else if (mod && !typing && e.key.toLowerCase() === 'z') {
+      e.preventDefault();
+      if (e.shiftKey) redo(); else undo();
+    } else if (mod && !typing && e.key.toLowerCase() === 'y') {
+      e.preventDefault();
+      redo();
+    } else if (e.key === 'Escape') {
+      const open = document.querySelector('.menu:not([hidden])');
+      if (open) { closeMenus(); if (open._anchor) open._anchor.focus(); }
+    }
+  });
+
+  // Another tab saved: pick up its state rather than overwrite it later.
+  window.addEventListener('storage', (e) => {
+    if (e.key === KEY && e.newValue) {
+      try {
+        const v = C.validateImport(JSON.parse(e.newValue));
+        if (v.ok) { state = v.data; render(); toast('Updated from another tab'); }
+      } catch (err) { /* ignore: our own copy stays */ }
+    } else if (e.key === META_KEY) {
+      meta = loadMeta();
+      renderTop();
+    }
+  });
+  window.addEventListener('pagehide', flushNotes);
+  setInterval(renderTop, 60 * 60 * 1000); // keep "days ago" fresh in a long-open tab
+
+  /* ---------- Boot ---------- */
+
+  let meta = loadMeta();
+  const loaded = loadState();
+  let state = loaded.state;
+  const isFresh = loaded.fresh;
+  try {
+    localStorage.setItem('uworldTracker.probe', '1');
+    localStorage.removeItem('uworldTracker.probe');
+  } catch (e) { storageOK = false; }
+  if (isFresh && !loaded.recovered) save();
+  // Recovered from the previous save: write it back over the unreadable copy (already set aside)
+  // so a later save never rotates the bad data into the backup slot.
+  if (!isFresh && loaded.recovered) {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* shown via save status */ }
+  }
+  render();
+  if (storageOK) setSaveStatus(true);
+  $('saveStatus').textContent = storageOK ? 'All changes save automatically' : $('saveStatus').textContent;
+})();
+
+</script>
+</body>
+</html>
